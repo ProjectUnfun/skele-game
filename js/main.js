@@ -4,6 +4,7 @@ var config = {
     height: 600,
     parent: "game-div",
     scene: [
+        BootScene,
         GameScene,
     ],
     physics: {
