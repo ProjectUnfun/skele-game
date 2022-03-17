@@ -4,8 +4,13 @@ class BootScene extends Phaser.Scene {
     }
 
     preload() {
+        // Load the tiled map assets
         this.loadTiledMapAssets();
+
+        // Load the player and mob spritesheets
         this.loadSpriteSheets();
+
+        // Load icon images for class selection scene
         this.loadClassIcons();
     }
 
@@ -17,6 +22,8 @@ class BootScene extends Phaser.Scene {
 
     // Load the assets for movement and attack animations for player and mobs
     loadSpriteSheets() {
+
+        // ***PLAYERS***
         this.load.spritesheet("meleeWalk", "assets/images/Players/meleeWalk.png", {
             frameWidth: 64,
             frameHeight: 64,
@@ -42,6 +49,7 @@ class BootScene extends Phaser.Scene {
             frameHeight: 64,
         });
 
+        // ***MOBS***
         this.load.spritesheet("greenSkeleWalk", "assets/images/Mobs/GreenSkeleWalk.png", {
             frameWidth: 64,
             frameHeight: 64,
@@ -49,7 +57,23 @@ class BootScene extends Phaser.Scene {
         this.load.spritesheet("greenSkeleAttack", "assets/images/Mobs/GreenSkeleAttack.png", {
             frameWidth: 64,
             frameHeight: 64,
-        })
+        });
+        this.load.spritesheet("greySkeleWalk", "assets/images/Mobs/GreySkeleWalk.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+        this.load.spritesheet("greySkeleAttack", "assets/images/Mobs/GreySkeleAttack.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+        this.load.spritesheet("whiteSkeleWalk", "assets/images/Mobs/WhiteSkeleWalk.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+        this.load.spritesheet("whiteSkeleAttack", "assets/images/Mobs/WhiteSkeleAttack.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
     }
 
     // Load the assets for setting up class selection scene
