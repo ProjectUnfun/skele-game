@@ -16,22 +16,22 @@ class BootScene extends Phaser.Scene {
 
     // Load the assets for movement and attack animations for player and mobs
     loadSpriteSheets() {
-        this.load.spritesheet("playerWalk", "assets/images/WalkLPC.png", {
+        this.load.spritesheet("meleeWalk", "assets/images/Players/meleeWalk.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
 
-        this.load.spritesheet("playerAttack", "assets/images/HammerLPC.png", {
+        this.load.spritesheet("meleeAttack", "assets/images/Players/meleeAttack.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
 
-        this.load.spritesheet("monsterWalk", "assets/images/SkeleWalk.png", {
+        this.load.spritesheet("greenSkeleWalk", "assets/images/Mobs/GreenSkeleWalk.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
 
-        this.load.spritesheet("monsterAttack", "assets/images/SkeleAttack.png", {
+        this.load.spritesheet("greenSkeleAttack", "assets/images/Mobs/GreenSkeleAttack.png", {
             frameWidth: 64,
             frameHeight: 64,
         })
