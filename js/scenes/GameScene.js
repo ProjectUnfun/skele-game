@@ -5,11 +5,23 @@ const Direction = {
     RIGHT: 4
 };
 
+const PlayerClass = {
+    FIGHTER: 1,
+    RANGER: 2,
+    CASTER: 3,
+}
+
 const playerMoveSpeed = 160;
 
 class GameScene extends Phaser.Scene {
     constructor() {
         super("Game");
+    }
+
+    init(data) {
+        // Store name passed from NameScene
+        this.playerName = data.name;
+        this.playerClass = data.class;
     }
 
     create() {
@@ -42,7 +54,7 @@ class GameScene extends Phaser.Scene {
 
     // Method creates the user player using the Player class defined in ../classes/Player.js
     createPlayer() {
-        this.player = new Player(this, 96, 160, "meleeWalk");
+        this.player = new Player(this, 96, 160, "meleeWalk", this.playerClass, this.playerName);
     }
 
     // Method creates collisions between map and creatures

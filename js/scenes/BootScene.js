@@ -6,6 +6,7 @@ class BootScene extends Phaser.Scene {
     preload() {
         this.loadTiledMapAssets();
         this.loadSpriteSheets();
+        this.loadClassIcons();
     }
 
     // Load the assets for the tiled map
@@ -20,8 +21,23 @@ class BootScene extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 64,
         });
-
         this.load.spritesheet("meleeAttack", "assets/images/Players/meleeAttack.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+        this.load.spritesheet("rangerWalk", "assets/images/Players/RangerWalk.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+        this.load.spritesheet("rangerAttack", "assets/images/Players/RangerAttack.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+        this.load.spritesheet("mageWalk", "assets/images/Players/MageWalk.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+        this.load.spritesheet("mageAttack", "assets/images/Players/MageAttack.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
@@ -30,15 +46,21 @@ class BootScene extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 64,
         });
-
         this.load.spritesheet("greenSkeleAttack", "assets/images/Mobs/GreenSkeleAttack.png", {
             frameWidth: 64,
             frameHeight: 64,
         })
     }
 
+    // Load the assets for setting up class selection scene
+    loadClassIcons() {
+        this.load.image("fighterIcon", "assets/images/ClassIcons/MeleeIcon.png");
+        this.load.image("rangerIcon", "assets/images/ClassIcons/RangerIcon.png");
+        this.load.image("mageIcon", "assets/images/ClassIcons/MageIcon.png");
+    }
+
     // Start the next scene
     create() {
-        this.scene.start("Game");
+        this.scene.start("Name");
     }
 }

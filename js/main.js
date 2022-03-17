@@ -5,8 +5,13 @@ var config = {
     parent: "game-div",
     scene: [
         BootScene,
+        ClassScene,
+        NameScene,
         GameScene,
     ],
+    dom: {
+        createContainer: true
+    },
     physics: {
         default: "arcade",
         arcade: {
