@@ -12,6 +12,9 @@ class BootScene extends Phaser.Scene {
 
         // Load icon images for class selection scene
         this.loadClassIcons();
+
+        // Load the background image for name and class scenes
+        this.loadBackgroundImage();
     }
 
     // Load the assets for the tiled map
@@ -81,6 +84,11 @@ class BootScene extends Phaser.Scene {
         this.load.image("fighterIcon", "assets/images/ClassIcons/MeleeIcon.png");
         this.load.image("rangerIcon", "assets/images/ClassIcons/RangerIcon.png");
         this.load.image("mageIcon", "assets/images/ClassIcons/MageIcon.png");
+    }
+
+    // Load the background image for name & class scenes
+    loadBackgroundImage() {
+        this.load.image("skeleBG", "assets/images/skeleBG.png");
     }
 
     // Load the assets for player and monster hitboxes

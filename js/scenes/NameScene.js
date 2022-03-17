@@ -15,6 +15,10 @@ class NameScene extends Phaser.Scene {
         // Track name acquisition status
         this.gotTheName = false;
 
+        // Display the background image
+        this.backgroundImage = this.add.image(0, 0, "skeleBG");
+        this.backgroundImage.setOrigin(0);
+
         // Display Title Text
         this.gameName = this.add.text(395, 125, "Skele Game", {
             color: "#00FF00",
@@ -30,7 +34,7 @@ class NameScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Display credit text
-        this.credits = this.add.text(395, 500, "Brought to you by:\n  Project Unfun ", {
+        this.credits = this.add.text(650, 550, "Brought to you by:\n  Project Unfun ", {
             color: "#FFFFFF",
             fontSize: 24,
             fontStyle: "bold"

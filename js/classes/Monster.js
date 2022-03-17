@@ -122,11 +122,14 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         // See player class before making adjustments here
         this.attackValue = 1;
 
-        // Track damage receiving status
+        // Track damage taking status
         this.canBeAttacked = true;
+    }
 
-        // Track damage dealing status
-        this.isAttacking = false;
+    // Method handles updating health when damage is taken
+    updateHealth(amount) {
+        this.health -= amount;
+        console.log(`Monster: ${this.id} has been damaged`);
     }
 
     // Method prepares mob for reactivation

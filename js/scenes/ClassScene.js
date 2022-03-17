@@ -9,6 +9,9 @@ class ClassScene extends Phaser.Scene {
     }
 
     create() {
+        // Create background image
+        this.displayBackgroundImage();
+
         // Display instructional text
         this.displayInstructions();
 
@@ -35,12 +38,18 @@ class ClassScene extends Phaser.Scene {
         }
     }
 
+    // Display the background image
+    displayBackgroundImage() {
+        this.backgroundImage = this.add.image(0, 0, "skeleBG");
+        this.backgroundImage.setOrigin(0);
+    }
+
     // Create the instruction text
     displayInstructions() {
         // Display instruction text
         this.message = this.add.text(395, 100, "Choose your class\n\nto start the game", {
             color: "#FFFFFF",
-            fontSize: 36,
+            fontSize: 48,
             fontStyle: "bold"
         }).setOrigin(0.5);
     }
@@ -96,12 +105,15 @@ class ClassScene extends Phaser.Scene {
     // Create the image buttons for class selection
     createImageButtons() {
         this.fighterButton = this.add.image(150, 350, "fighterIcon");
+        this.fighterButton.setAlpha(0.6);
         this.fighterButton.setInteractive();
 
         this.rangerButton = this.add.image(400, 350, "rangerIcon");
+        this.rangerButton.setAlpha(0.6);
         this.rangerButton.setInteractive();
 
         this.mageButton = this.add.image(650, 350, "mageIcon");
+        this.mageButton.setAlpha(0.6);
         this.mageButton.setInteractive();
     }
 
@@ -111,30 +123,30 @@ class ClassScene extends Phaser.Scene {
             this.classSelected = 1;
         });
         this.fighterButton.on('pointerover', () => {
-            this.fighterButton.setAlpha(0.5);
+            this.fighterButton.setAlpha(1);
         });
         this.fighterButton.on('pointerout', () => {
-            this.fighterButton.setAlpha(1);
+            this.fighterButton.setAlpha(0.6);
         });
 
         this.rangerButton.on('pointerdown', () => {
             this.classSelected = 2;
         });
         this.rangerButton.on('pointerover', () => {
-            this.rangerButton.setAlpha(0.5);
+            this.rangerButton.setAlpha(1);
         });
         this.rangerButton.on('pointerout', () => {
-            this.rangerButton.setAlpha(1);
+            this.rangerButton.setAlpha(0.6);
         });
 
         this.mageButton.on('pointerdown', () => {
             this.classSelected = 3;
         });
         this.mageButton.on('pointerover', () => {
-            this.mageButton.setAlpha(0.5);
+            this.mageButton.setAlpha(1);
         });
         this.mageButton.on('pointerout', () => {
-            this.mageButton.setAlpha(1);
+            this.mageButton.setAlpha(0.6);
         });
     }
 }

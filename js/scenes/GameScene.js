@@ -21,7 +21,7 @@ const MonsterClass = {
 }
 
 // Track movement velocity of player in game
-const playerMoveSpeed = 120;
+const playerMoveSpeed = 160;
 
 // Track movement velocity of monsters in game
 const monsterMoveSpeed = 120;
@@ -74,14 +74,14 @@ class GameScene extends Phaser.Scene {
         // Create the in game map
         this.createMap();
 
-        // Create the player
-        this.createPlayer();
-
         // Config the mobs
         this.configMonsters();
 
         // Spawn the mobs
         this.spawnMonsters(numberOfMobs);
+
+        // Create the player
+        this.createPlayer();
 
         // Add collisions with the map
         this.addCollisions();
