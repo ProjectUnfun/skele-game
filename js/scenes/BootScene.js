@@ -83,6 +83,15 @@ class BootScene extends Phaser.Scene {
         this.load.image("mageIcon", "assets/images/ClassIcons/MageIcon.png");
     }
 
+    // Load the assets for player and monster hitboxes
+    loadHitboxingImages() {
+        // Monster hitbox (never seen, just used for physics body)
+        this.load.image("playerHitbox", "assets/images/Players/hitboxImage.png");
+
+        // Monster hitbox (never seen, just used for physics body)
+        this.load.image("monsterHitbox", "assets/images/Mobs/AttackBounds.png");
+    }
+
     // Start the next scene
     create() {
         this.scene.start("Name");

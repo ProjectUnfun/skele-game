@@ -72,21 +72,21 @@ class ClassScene extends Phaser.Scene {
     // Create text descriptions for classes
     createClassDescriptions() {
         // Fighter description text
-        this.message = this.add.text(150, 510, " Melee Attack\nMed Energy Use\n  Med Damage", {
+        this.message = this.add.text(150, 520, " Melee Attack\nMed Energy Use\n  Med Damage\n  High Health", {
             color: "#FFFFFF",
             fontSize: 24,
             fontStyle: "bold"
         }).setOrigin(0.5);
 
         // Ranger description text
-        this.message = this.add.text(400, 510, " Range Attack\nLow Energy Use\n  Low Damage", {
+        this.message = this.add.text(400, 520, " Range Attack\nLow Energy Use\n  Low Damage\n  Med Health", {
             color: "#FFFFFF",
             fontSize: 24,
             fontStyle: "bold"
         }).setOrigin(0.5);
 
         // Caster description text
-        this.message = this.add.text(650, 510, " Range Attack\nHigh Energy Use\n  High Damage", {
+        this.message = this.add.text(650, 520, " Range Attack\nHigh Energy Use\n  High Damage\n  Low Health", {
             color: "#FFFFFF",
             fontSize: 24,
             fontStyle: "bold"
@@ -110,13 +110,31 @@ class ClassScene extends Phaser.Scene {
         this.fighterButton.on('pointerdown', () => {
             this.classSelected = 1;
         });
+        this.fighterButton.on('pointerover', () => {
+            this.fighterButton.setAlpha(0.5);
+        });
+        this.fighterButton.on('pointerout', () => {
+            this.fighterButton.setAlpha(1);
+        });
 
         this.rangerButton.on('pointerdown', () => {
             this.classSelected = 2;
         });
+        this.rangerButton.on('pointerover', () => {
+            this.rangerButton.setAlpha(0.5);
+        });
+        this.rangerButton.on('pointerout', () => {
+            this.rangerButton.setAlpha(1);
+        });
 
         this.mageButton.on('pointerdown', () => {
             this.classSelected = 3;
+        });
+        this.mageButton.on('pointerover', () => {
+            this.mageButton.setAlpha(0.5);
+        });
+        this.mageButton.on('pointerout', () => {
+            this.mageButton.setAlpha(1);
         });
     }
 }

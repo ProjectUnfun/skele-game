@@ -29,6 +29,13 @@ class NameScene extends Phaser.Scene {
             fontStyle: "bold"
         }).setOrigin(0.5);
 
+        // Display credit text
+        this.credits = this.add.text(395, 500, "Brought to you by:\n  Project Unfun ", {
+            color: "#FFFFFF",
+            fontSize: 24,
+            fontStyle: "bold"
+        }).setOrigin(0.5);
+
         // Serve the input form HTML page
         this.nameInput = this.add.dom(395, 360).createFromCache("form");
 

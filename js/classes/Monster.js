@@ -22,8 +22,12 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         this.currentDirection = Direction.DOWN;
         this.setFrame(18);
 
-        // Config movement
+        // Config movement & combat
         this.configMovement();
+        this.configCombat();
+
+        // Create health bar
+        this.createHealthBar();
 
         // Add monster object to scene
         this.scene.add.existing(this);
@@ -31,14 +35,22 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
 
     update() {
         this.checkMovement();
+        this.updateHealthBar();
     }
 
     // Method configures movement
     configMovement() {
+        // Set max and minimum movement selection processing values
         this.minStepCount = 32;
         this.maxStepCount = 64;
+
+        // Get a random number of steps from 0 to 64
         this.stepCount = Math.floor(Math.random() * this.maxStepCount);
+
+        // Ensure step count is at least 32
         if (this.stepCount < this.minStepCount) this.stepCount = this.minStepCount;
+
+        // Tracks movement selection processing
         this.isProcessing = false;
     }
 
@@ -51,7 +63,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         if (this.isProcessing) {
             this.stepCount--;
         } else {
-            this.move(Math.floor(Math.random() * 4));
+            this.move(Math.floor(Math.random() * 5));
             this.stepCount = Math.floor(Math.random() * this.maxStepCount);
             if (this.stepCount < this.minStepCount) this.stepCount = this.minStepCount;
         }
@@ -99,11 +111,64 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
+    // Method configs combat
+    configCombat() {
+        // Config health - health is setup considering player attack values
+        // See player class before making adjustments here
+        this.health = 8;
+        this.maxHealth = 8;
+
+        // Config attack value - attack is setup considering player health values
+        // See player class before making adjustments here
+        this.attackValue = 1;
+
+        // Track damage receiving status
+        this.canBeAttacked = true;
+
+        // Track damage dealing status
+        this.isAttacking = false;
+    }
+
     // Method prepares mob for reactivation
-    reactivate(locationArray) {
+    makeActive(locationArray) {
+        // Set animation frame & direction to down
         this.setFrame(18);
+        this.currentDirection = Direction.DOWN;
+
+        // Sets spawn location with the random location array passed in
         this.setPosition(locationArray[0], locationArray[1]);
-        this.makeActive();
+
+        // Set monster to active & visible
+        this.setActive(true);
+        this.setVisible(true);
+
+        // Activate monster collisions
+        this.body.checkCollision.none = false;
+        this.body.onOverlap = true;
+
+        // Update monster health bar
+        this.updateHealthBar();
+        this.healthBar.setVisible(true);
+    }
+
+    // Method creates the monster health bar
+    createHealthBar() {
+        this.healthBar = this.scene.add.graphics();
+        this.updateHealthBar();
+    }
+
+    // Method updates the location and fullness of health bar
+    updateHealthBar() {
+        this.healthBar.clear();
+        this.healthBar.fillStyle(0xffffff, 1);
+        this.healthBar.fillRect(this.x - 20, this.y - 30, 40, 5);
+        this.healthBar.fillGradientStyle(0xff0000, 0xff0000, 4);
+        this.healthBar.fillRect(
+            this.x - 20,
+            this.y - 30,
+            (40 * this.health) / this.maxHealth,
+            5
+        );
     }
 
     // Method generates movement frames for walking animations

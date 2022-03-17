@@ -22,8 +22,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.currentDirection = Direction.DOWN;
         this.setFrame(18);
 
-        // Create the user name text
+        // Config combat
+        this.configCombat();
+
+        // Create the user name text & health and energy bars
         this.createNameText();
+        this.createHealthBar();
+        this.createEnergyBar();
 
         // Make the game camera follow the player
         this.scene.cameras.main.startFollow(this);
@@ -36,6 +41,52 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.checkIdle(cursors);
         this.checkMovement(cursors);
         this.updateNameText();
+        this.updateHealthBar();
+        this.updateEnergyBar();
+    }
+
+    // Method configs combat
+    configCombat() {
+        if (this.playerClass === PlayerClass.FIGHTER) {
+            // Config health - melee needs to be able to take hits
+            this.health = 9;
+            this.maxHealth = 9;
+
+            // Config energy - melee should be able to attack 9x before out of energy
+            this.energy = 9;
+            this.maxEnergy = 9;
+
+            // Config attack value - melee should kill in 3 hits
+            this.attackValue = 3;
+        } else if (this.playerClass === PlayerClass.RANGER) {
+            // Config health - ranger should be mildly sturdy
+            this.health = 6;
+            this.maxHealth = 6;
+
+            // Config energy - ranger should be able to attack 16x before out of energy
+            this.energy = 16;
+            this.maxEnergy = 16;
+
+            // Config attack value - ranger should kill in 4 hits
+            this.attackValue = 2;
+        } else if (this.playerClass === PlayerClass.CASTER) {
+            // Config health - mage should be glass cannon
+            this.health = 4;
+            this.maxHealth = 4;
+
+            // Config energy - mage should be able to attack 4x before out of energy
+            this.energy = 4;
+            this.maxEnergy = 4;
+
+            // Config attack value - mage should kill in 2 hits
+            this.attackValue = 5;
+        }
+
+        // Track damage receiving status
+        this.canBeAttacked = true;
+
+        // Track damage dealing status
+        this.isAttacking = false;
     }
 
     // Method handles idle status
@@ -102,6 +153,46 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     updateNameText() {
         this.nameText.setFill("#FFFFFF");
         this.nameText.setPosition(this.x, this.y - 44);
+    }
+
+    // Method creates the health bar
+    createHealthBar() {
+        this.healthBar = this.scene.add.graphics();
+        this.updateHealthBar();
+    }
+
+    // Method updates the location and fullness of health bar
+    updateHealthBar() {
+        this.healthBar.clear();
+        this.healthBar.fillStyle(0xffffff, 1);
+        this.healthBar.fillRect(this.x - 20, this.y - 36, 40, 5);
+        this.healthBar.fillGradientStyle(0x00ff00, 0x00ff00, 4);
+        this.healthBar.fillRect(
+            this.x - 20,
+            this.y - 36,
+            (40 * this.health) / this.maxHealth,
+            5
+        );
+    }
+
+    // Method creates the energy bar
+    createEnergyBar() {
+        this.energyBar = this.scene.add.graphics();
+        this.updateEnergyBar();
+    }
+
+    // Method updates the location and fullness of energy bar
+    updateEnergyBar() {
+        this.energyBar.clear();
+        this.energyBar.fillStyle(0xffffff, 1);
+        this.energyBar.fillRect(this.x - 20, this.y - 31, 40, 5);
+        this.energyBar.fillGradientStyle(0x00aeff, 0x00aeff, 4);
+        this.energyBar.fillRect(
+            this.x - 20,
+            this.y - 31,
+            (40 * this.energy) / this.maxEnergy,
+            5
+        );
     }
 
     // Method generates movement frames for walking animations

@@ -1,5 +1,5 @@
 # *Skele-game*
-## A single-player game where you smash skeletons with a hammer
+## A single-player game where you fight skeletons
 
 ### Goals:
 - Use map made in Tiled Editor
@@ -7,12 +7,12 @@
 - Implement four-directional attacking with animated attacking sequence
 - Play audio when player and mobs are attacking and being attacked
 - Implement a 'login' scene where players can enter their user name
-- Implement a 'selection' scene where players can choose between melee and ranged attack 
-- Display Health bar and name over character sprites in game
+- Implement a 'selection' scene where players can choose their class 
+- Display Health & Mana bars and name over character sprite in game
 - Display a combat log where they player can see their given & taken damage, and when they find items
 - Implement a 'potion' item that restores player health and mana to full
 - Implement a 'power-up' item that temporarily increases player damage
-- Implement an 'impervious' item that temporarily makes player impervious to mob attacks
+- Implement an 'star' item that temporarily makes player impervious to mob attacks & keeps energy full
 - Implment an inventory that stores items collected by the player
 - Implment a menu that allows players to use and discard items collected in the inventory
 - Implement a HUD that displays number of kills and number of mobs that remain alive

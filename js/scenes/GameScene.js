@@ -42,7 +42,6 @@ const spawnLocations = [
     [128, 928],
     [1024, 96],
     [1056, 736],
-    [96, 160],
     [650, 253],
     [480, 109],
     [75, 835],
@@ -148,8 +147,9 @@ class GameScene extends Phaser.Scene {
             monster = this.monsters.getFirstDead();
 
             // Get a random spawn location
-            spawnLocation = spawnLocations[Math.floor(Math.random() * 20)];
+            spawnLocation = spawnLocations[Math.floor(Math.random() * 19)];
 
+            // Get a random monster class selection
             classSelection = Math.floor(Math.random() * 3) + 1;
 
             // Create a new monster if there are no inactive monsters
@@ -172,7 +172,7 @@ class GameScene extends Phaser.Scene {
                 monsterID++;
             } else {
                 // Re-config inactive monster and reactivate it
-                monster.reactivate(spawnLocation);
+                monster.makeActive(spawnLocation);
             }
         }
     }
