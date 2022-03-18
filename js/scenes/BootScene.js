@@ -52,6 +52,16 @@ class BootScene extends Phaser.Scene {
             frameHeight: 64,
         });
 
+        this.load.spritesheet("arrow", "assets/images/Players/hitboxImage.png", {
+            frameWidth: 32,
+            frameHeight: 32,
+        });
+
+        this.load.spritesheet("tornado", "assets/images/Players/tornado.png", {
+            frameWidth: 128,
+            frameHeight: 128,
+        });
+
         // ***MOBS***
         this.load.spritesheet("greenSkeleWalk", "assets/images/Mobs/GreenSkeleWalk.png", {
             frameWidth: 64,

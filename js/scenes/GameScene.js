@@ -112,11 +112,11 @@ class GameScene extends Phaser.Scene {
     // Method creates the user player using the Player class defined in ../classes/Player.js
     createPlayer() {
         if (this.playerClass === PlayerClass.FIGHTER) {
-            this.player = new Player(this, 96, 160, "meleeWalk", this.playerClass, this.playerName);
+            this.player = new FighterPlayer(this, 96, 160, "meleeWalk", this.playerName);
         } else if (this.playerClass === PlayerClass.RANGER) {
-            this.player = new Player(this, 96, 160, "rangerWalk", this.playerClass, this.playerName);
+            this.player = new RangerPlayer(this, 96, 160, "rangerWalk", this.playerName);
         } else if (this.playerClass === PlayerClass.CASTER) {
-            this.player = new Player(this, 96, 160, "mageWalk", this.playerClass, this.playerName);
+            this.player = new CasterPlayer(this, 96, 160, "mageWalk", this.playerName);
         }
 
     }

@@ -121,9 +121,6 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         // Config attack value - attack is setup considering player health values
         // See player class before making adjustments here
         this.attackValue = 1;
-
-        // Track damage taking status
-        this.canBeAttacked = true;
     }
 
     // Method handles updating health when damage is taken
