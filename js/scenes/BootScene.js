@@ -98,7 +98,7 @@ class BootScene extends Phaser.Scene {
 
     // Load the background image for name & class scenes
     loadBackgroundImage() {
-        this.load.image("skeleBG", "assets/images/skeleBG.png");
+        this.load.image("skeleBG", "assets/images/skullBG.png");
     }
 
     // Load the assets for player and monster hitboxes

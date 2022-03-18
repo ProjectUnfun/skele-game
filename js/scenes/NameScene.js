@@ -20,28 +20,28 @@ class NameScene extends Phaser.Scene {
         this.backgroundImage.setOrigin(0);
 
         // Display Title Text
-        this.gameName = this.add.text(395, 125, "Skele Game", {
-            color: "#00FF00",
-            fontSize: 72,
-            fontStyle: "bold"
+        this.gameName = this.add.text(395, 100, "Legio Mortis", {
+            color: "#DFDFDF",
+            fontSize: 108,
+            fontFamily: "Lucifer",
         }).setOrigin(0.5);
 
         // Display instruction text
-        this.message = this.add.text(395, 250, "Type your name then press\n     the Enter key ", {
-            color: "#FFFFFF",
-            fontSize: 36,
-            fontStyle: "bold"
+        this.message = this.add.text(395, 300, "Enter your name:", {
+            color: "#DFDFDF",
+            fontSize: 48,
+            fontFamily: "Lucifer",
         }).setOrigin(0.5);
 
         // Display credit text
-        this.credits = this.add.text(650, 550, "Brought to you by:\n  Project Unfun ", {
-            color: "#FFFFFF",
-            fontSize: 24,
+        this.credits = this.add.text(670, 570, "Brought to you by:\n  Project Unfun ", {
+            color: "#DFDFDF",
+            fontSize: 20,
             fontStyle: "bold"
         }).setOrigin(0.5);
 
         // Serve the input form HTML page
-        this.nameInput = this.add.dom(395, 360).createFromCache("form");
+        this.nameInput = this.add.dom(395, 375).createFromCache("form");
 
         // Track when the enter key is pressed
         this.returnKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);

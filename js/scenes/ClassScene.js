@@ -47,10 +47,10 @@ class ClassScene extends Phaser.Scene {
     // Create the instruction text
     displayInstructions() {
         // Display instruction text
-        this.message = this.add.text(395, 100, "Choose your class\n\nto start the game", {
-            color: "#FFFFFF",
-            fontSize: 48,
-            fontStyle: "bold"
+        this.message = this.add.text(395, 100, "Choose your class:", {
+            color: "#DFDFDF",
+            fontSize: 70,
+            fontFamily: "Lucifer",
         }).setOrigin(0.5);
     }
 
@@ -58,45 +58,45 @@ class ClassScene extends Phaser.Scene {
     createClassLabels() {
         // Fighter text label
         this.message = this.add.text(150, 225, "Fighter", {
-            color: "#FF0000",
+            color: "#DFDFDF",
             fontSize: 36,
-            fontStyle: "bold"
+            fontFamily: "Lucifer",
         }).setOrigin(0.5);
 
         // Ranger text label
         this.message = this.add.text(400, 225, "Ranger", {
-            color: "#0000FF",
+            color: "#DFDFDF",
             fontSize: 36,
-            fontStyle: "bold"
+            fontFamily: "Lucifer",
         }).setOrigin(0.5);
 
         // Caster text label
         this.message = this.add.text(650, 225, "Caster", {
-            color: "#00FF00",
+            color: "#DFDFDF",
             fontSize: 36,
-            fontStyle: "bold"
+            fontFamily: "Lucifer",
         }).setOrigin(0.5);
     }
 
     // Create text descriptions for classes
     createClassDescriptions() {
         // Fighter description text
-        this.message = this.add.text(150, 520, " Melee Attack\nMed Energy Use\n  Med Damage\n  High Health", {
-            color: "#FFFFFF",
+        this.message = this.add.text(150, 530, " Melee Attack\nMed Energy Use\n  Med Damage\n  High Health", {
+            color: "#DFDFDF",
             fontSize: 24,
             fontStyle: "bold"
         }).setOrigin(0.5);
 
         // Ranger description text
-        this.message = this.add.text(400, 520, " Range Attack\nLow Energy Use\n  Low Damage\n  Med Health", {
-            color: "#FFFFFF",
+        this.message = this.add.text(400, 530, " Range Attack\nLow Energy Use\n  Low Damage\n  Med Health", {
+            color: "#DFDFDF",
             fontSize: 24,
             fontStyle: "bold"
         }).setOrigin(0.5);
 
         // Caster description text
-        this.message = this.add.text(650, 520, " Range Attack\nHigh Energy Use\n  High Damage\n  Low Health", {
-            color: "#FFFFFF",
+        this.message = this.add.text(650, 530, " Range Attack\nHigh Energy Use\n  High Damage\n  Low Health", {
+            color: "#DFDFDF",
             fontSize: 24,
             fontStyle: "bold"
         }).setOrigin(0.5);
