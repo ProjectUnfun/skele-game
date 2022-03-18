@@ -74,32 +74,19 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
         // Set the move speed of the arrows
         this.arrowSpeed = 400;
 
-        // Track hitbox location
-        this.hitboxLocation = {
-            x: 0,
-            y: 0,
-        }
+        // Create arrows physics group
+        this.arrows = this.scene.physics.add.group();
+        this.arrows.runChildUpdate = true;
 
-        // Create hitbox physics body
-        this.hitbox = this.scene.add.sprite(this.x, this.y, "arrow");
-
-        // Config hitbox physics
-        this.scene.physics.world.enable(this.hitbox);
-
-        // Set default hitbox status
-        this.hitbox.setAlpha(0);
-        this.makeHitboxInactive();
-        this.hitboxIsActive = false;
-
-        // Player hitbox vs monsters overlap method call
-        this.scene.physics.add.overlap(this.hitbox, this.scene.monsters, (hitbox, enemy) => {
+        // Player arrows vs monsters overlap method call
+        this.scene.physics.add.overlap(this.arrows, this.scene.monsters, (arrow, enemy) => {
             this.handleEnemyAttacked(enemy);
-            this.makeHitboxInactive();
+            arrow.makeArrowInactive();
         });
 
-        // Hitbox vs map bounds collision call
-        this.scene.physics.add.collider(this.hitbox, this.scene.map.blockedLayer, () => {
-            this.makeHitboxInactive();
+        // Arrows vs map bounds collision call
+        this.scene.physics.add.collider(this.arrows, this.scene.map.blockedLayer, (arrow, map) => {
+            arrow.makeArrowInactive();
         });
     }
 
@@ -116,43 +103,43 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
             this.body.setVelocity(0);
             this.isAttacking = true;
 
-            // Determine direction, appropriate animation, and hitbox location & velocity
-            if (this.currentDirection === Direction.DOWN) {
-                this.anims.play("attackDown", true);
-                this.hitboxLocation.x = this.x;
-                this.hitboxLocation.y = this.y + 24;
-                this.hitbox.angle = 0;
-                this.hitbox.setPosition(this.hitboxLocation.x, this.hitboxLocation.y);
-                this.hitbox.body.setVelocityY(this.arrowSpeed);
-                this.hitbox.body.setVelocityX(0);
-            } else if (this.currentDirection === Direction.UP) {
-                this.anims.play("attackUp", true);
-                this.hitboxLocation.x = this.x;
-                this.hitboxLocation.y = this.y - 16;
-                this.hitbox.angle = 180;
-                this.hitbox.setPosition(this.hitboxLocation.x, this.hitboxLocation.y);
-                this.hitbox.body.setVelocityY(-this.arrowSpeed);
-                this.hitbox.body.setVelocityX(0);
-            } else if (this.currentDirection === Direction.LEFT) {
-                this.anims.play("attackLeft", true);
-                this.hitboxLocation.x = this.x - 16;
-                this.hitboxLocation.y = this.y + 6;
-                this.hitbox.angle = 90;
-                this.hitbox.setPosition(this.hitboxLocation.x, this.hitboxLocation.y);
-                this.hitbox.body.setVelocityX(-this.arrowSpeed);
-                this.hitbox.body.setVelocityY(0);
-            } else if (this.currentDirection === Direction.RIGHT) {
-                this.anims.play("attackRight", true);
-                this.hitboxLocation.x = this.x + 16;
-                this.hitboxLocation.y = this.y + 6;
-                this.hitbox.angle = 270;
-                this.hitbox.setPosition(this.hitboxLocation.x, this.hitboxLocation.y);
-                this.hitbox.body.setVelocityX(this.arrowSpeed);
-                this.hitbox.body.setVelocityY(0);
+            // Get inactive arrow, or create a new one
+            let arrow = this.arrows.getFirstDead();
+            if (!arrow) {
+                arrow = new PlayerArrow(this.scene, this.x, this.y, "arrow");
+                this.arrows.add(arrow);
+            } else {
+                arrow.makeArrowActive();
             }
 
-            // Activate hitbox for attack detection
-            this.makeHitboxActive();
+            // Determine direction; set animation, angle, and arrow location & velocity
+            if (this.currentDirection === Direction.DOWN) {
+                this.anims.play("attackDown", true);
+                arrow.angle = 0;
+                arrow.setPosition(this.x, this.y + 24);
+                arrow.body.setVelocityY(this.arrowSpeed);
+                arrow.body.setVelocityX(0);
+            } else if (this.currentDirection === Direction.UP) {
+                this.anims.play("attackUp", true);
+                arrow.angle = 180;
+                arrow.setPosition(this.x, this.y - 16);
+                arrow.body.setVelocityY(-this.arrowSpeed);
+                arrow.body.setVelocityX(0);
+            } else if (this.currentDirection === Direction.LEFT) {
+                this.anims.play("attackLeft", true);
+                arrow.angle = 90;
+                arrow.setPosition(this.x - 16, this.y + 6);
+                arrow.body.setVelocityX(-this.arrowSpeed);
+                arrow.body.setVelocityY(0);
+            } else if (this.currentDirection === Direction.RIGHT) {
+                this.anims.play("attackRight", true);
+                arrow.angle = 270;
+                arrow.setPosition(this.x + 16, this.y + 6);
+                arrow.body.setVelocityX(this.arrowSpeed);
+                arrow.body.setVelocityY(0);
+            }
+
+            arrow.makeArrowActive();
 
             // Deplete player energy for each attack
             this.energy--;
@@ -161,30 +148,12 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
             this.scene.time.delayedCall(
                 300,
                 () => {
-                    // Reset flag & deactivate hitbox
                     this.isAttacking = false;
                 },
                 [],
                 this
             );
         }
-    }
-
-    // Method make hitbox active for attack overlap checking
-    makeHitboxActive() {
-        // Activate hitbox overlap checking
-        this.hitbox.setAlpha(1);
-        this.hitbox.body.checkCollision.none = false;
-        this.hitboxIsActive = true;
-    }
-
-    // Method makes hitbox inactive to prevent attack overlap checking
-    makeHitboxInactive() {
-        // Deactivate hitbox overlap checking
-        this.hitbox.setAlpha(0);
-        this.hitbox.body.checkCollision.none = true;
-        this.hitbox.body.setVelocity(0);
-        this.hitboxIsActive = false;
     }
 
     // Method handles idle status

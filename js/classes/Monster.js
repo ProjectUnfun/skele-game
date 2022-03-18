@@ -228,17 +228,11 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
 
     // Method makes monster inactive and invisible when killed
     makeInactive() {
-        // Set monster to inactive
         this.setActive(false);
-
-        // Set monster to invisible
         this.setVisible(false);
-
-        // Deactivate monster collisions
         this.body.checkCollision.none = true;
-
-        // Deactivate monster overlap checking
         this.body.onOverlap = false;
+        this.body.setVelocity(0);
 
         // Clear the health bar
         this.healthBar.clear();
