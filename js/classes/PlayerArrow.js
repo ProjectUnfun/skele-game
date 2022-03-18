@@ -6,13 +6,14 @@ class PlayerArrow extends Phaser.Physics.Arcade.Sprite {
         this.y = y;
         this.images = images;
 
-        // Enable player physics
+        // Enable arrow physics
         this.scene.physics.world.enable(this);
 
         // Add arrow object to scene
         this.scene.add.existing(this);
     }
 
+    // Method activates arrow
     makeArrowActive() {
         this.setActive(true);
         this.setVisible(true);
@@ -20,6 +21,7 @@ class PlayerArrow extends Phaser.Physics.Arcade.Sprite {
         this.body.onOverlap = true;
     }
 
+    // Method deactivates arrow
     makeArrowInactive() {
         this.setActive(false);
         this.setVisible(false);

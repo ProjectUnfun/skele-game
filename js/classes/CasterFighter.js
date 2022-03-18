@@ -13,12 +13,6 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
         // Config combat
         this.configCombat();
 
-        // Config natural health & mana restore
-        this.healthRegenCount = 0;
-        this.maxHealthRegenCount = 300;
-        this.energyRegenCount = 0;
-        this.maxEnergyRegenCount = 150;
-
         // Create animations
         this.createWalkAnimations();
         this.createAttackAnimations();
@@ -53,6 +47,12 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
         // Config physics body
         this.body.setSize(32, 36);
         this.body.setOffset(16, 20);
+
+        // Config natural health & mana restore
+        this.healthRegenCount = 0;
+        this.maxHealthRegenCount = 250;
+        this.energyRegenCount = 0;
+        this.maxEnergyRegenCount = 100;
 
         // Config health - caster is a glass cannon
         this.health = 4;

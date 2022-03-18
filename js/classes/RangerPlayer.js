@@ -10,18 +10,8 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
         // Enable player physics
         this.scene.physics.world.enable(this);
 
-        // Config physics body
-        this.body.setSize(32, 36);
-        this.body.setOffset(16, 20);
-
         // Config combat
         this.configCombat();
-
-        // Config natural health & mana restore
-        this.healthRegenCount = 0;
-        this.maxHealthRegenCount = 300;
-        this.energyRegenCount = 0;
-        this.maxEnergyRegenCount = 50;
 
         // Create animations
         this.createWalkAnimations();
@@ -54,6 +44,16 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
 
     // Method configs combat
     configCombat() {
+        // Config physics body
+        this.body.setSize(32, 36);
+        this.body.setOffset(16, 20);
+
+        // Config natural health & mana restore
+        this.healthRegenCount = 0;
+        this.maxHealthRegenCount = 200;
+        this.energyRegenCount = 0;
+        this.maxEnergyRegenCount = 50;
+
         // Config health - ranger needs some durability
         this.health = 6;
         this.maxHealth = 6;

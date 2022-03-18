@@ -10,12 +10,6 @@ class FighterPlayer extends Phaser.Physics.Arcade.Sprite {
         // Enable player physics
         this.scene.physics.world.enable(this);
 
-        // Config natural health & mana restore
-        this.healthRegenCount = 0;
-        this.maxHealthRegenCount = 300;
-        this.energyRegenCount = 0;
-        this.maxEnergyRegenCount = 100;
-
         // Create animations
         this.createWalkAnimations();
         this.createAttackAnimations();
@@ -53,6 +47,12 @@ class FighterPlayer extends Phaser.Physics.Arcade.Sprite {
         // Config physics body
         this.body.setSize(32, 36);
         this.body.setOffset(16, 20);
+
+        // Config natural health & mana restore
+        this.healthRegenCount = 0;
+        this.maxHealthRegenCount = 150;
+        this.energyRegenCount = 0;
+        this.maxEnergyRegenCount = 75;
 
         // Config health - melee needs to be able to take hits
         this.health = 9;
