@@ -17,6 +17,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
 
         // Create walk animations
         this.createWalkAnimations();
+        this.createAttackAnimations();
 
         // Set default animation status
         this.currentDirection = Direction.DOWN;
@@ -34,7 +35,9 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
+        this.checkDeath();
         this.checkMovement();
+        this.checkAttack();
         this.updateHealthBar();
     }
 
@@ -100,12 +103,20 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
             this.anims.stop();
             this.isProcessing = true; // This is for the step count functionality
             if (this.currentDirection === Direction.DOWN) {
+                this.anims.play("walkDown", true);
+                this.anims.stop();
                 this.setFrame(18);
             } else if (this.currentDirection === Direction.UP) {
+                this.anims.play("walkUp", true);
+                this.anims.stop();
                 this.setFrame(0);
             } else if (this.currentDirection === Direction.LEFT) {
+                this.anims.play("walkLeft", true);
+                this.anims.stop();
                 this.setFrame(9);
             } else if (this.currentDirection === Direction.RIGHT) {
+                this.anims.play("walkRight", true);
+                this.anims.stop();
                 this.setFrame(27);
             }
         }
@@ -121,6 +132,56 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         // Config attack value - attack is setup considering player health values
         // See player class before making adjustments here
         this.attackValue = 1;
+
+        // Track attack status
+        this.isAttacking = false;
+    }
+
+    // Method alters attacking flag
+    markAsAttacking() {
+        this.isAttacking = true;
+    }
+
+    // Method handles monster attacking player
+    checkAttack() {
+        if (this.isAttacking) {
+            if (this.currentDirection === Direction.DOWN) {
+                this.anims.play("attackDown", true);
+            } else if (this.currentDirection === Direction.UP) {
+                this.anims.play("attackUp", true);
+            } else if (this.currentDirection === Direction.LEFT) {
+                this.anims.play("attackLeft", true);
+            } else if (this.currentDirection === Direction.RIGHT) {
+                this.anims.play("attackRight", true);
+            }
+
+            // If the player can be attacked
+            if (this.scene.player.canBeAttacked) {
+                this.scene.player.updateHealth(this.attackValue);
+                this.scene.player.canBeAttacked = false;
+
+                // Delayed call to make player attackable again
+                this.scene.time.delayedCall(
+                    700,
+                    () => {
+                        this.scene.player.canBeAttacked = true;
+                    },
+                    [],
+                    this
+                );
+            }
+
+            // Delay player attack repetition by .3 seconds
+            this.scene.time.delayedCall(
+                300,
+                () => {
+                    // Reset flag & deactivate hitbox
+                    this.isAttacking = false;
+                },
+                [],
+                this
+            );
+        }
     }
 
     // Method handles updating health when damage is taken
@@ -129,9 +190,23 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         console.log(`Monster: ${this.id} has been damaged`);
     }
 
+    // Method handles death
+    checkDeath() {
+        if (this.health <= 0) {
+            // Decrement monster counter
+            numberOfMonsters--;
+            console.log(`numberOfMonsters = ${numberOfMonsters}`);
+
+            // Set the monster to inactive
+            this.makeInactive();
+        }
+    }
+
     // Method prepares mob for reactivation
     makeActive(locationArray) {
         // Set animation frame & direction to down
+        this.anims.stop();
+        this.anims.play("walkDown", true);
         this.setFrame(18);
         this.currentDirection = Direction.DOWN;
 
@@ -149,6 +224,27 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         // Update monster health bar
         this.updateHealthBar();
         this.healthBar.setVisible(true);
+    }
+
+    // Method makes monster inactive and invisible when killed
+    makeInactive() {
+        // Set monster to inactive
+        this.setActive(false);
+
+        // Set monster to invisible
+        this.setVisible(false);
+
+        // Deactivate monster collisions
+        this.body.checkCollision.none = true;
+
+        // Deactivate monster overlap checking
+        this.body.onOverlap = false;
+
+        // Clear the health bar
+        this.healthBar.clear();
+
+        // Make the heath bar invisible
+        this.healthBar.setVisible(false);
     }
 
     // Method creates the monster health bar
@@ -285,6 +381,137 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
                     end: 35,
                 }),
                 frameRate: rateOfFrames,
+                repeat: repeatValue,
+            });
+        }
+    }
+
+    // Method generates frames for attack animations
+    createAttackAnimations() {
+        let rateOfFrames = 20;
+        let repeatValue = 0;
+
+        if (this.monsterClass === MonsterClass.WHITE) {
+            this.anims.create({
+                key: "attackUp",
+                frames: this.anims.generateFrameNumbers("whiteSkeleAttack", {
+                    start: 0,
+                    end: 5,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+            this.anims.create({
+                key: "attackLeft",
+                frames: this.anims.generateFrameNumbers("whiteSkeleAttack", {
+                    start: 6,
+                    end: 11,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+            this.anims.create({
+                key: "attackDown",
+                frames: this.anims.generateFrameNumbers("whiteSkeleAttack", {
+                    start: 12,
+                    end: 17,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+            this.anims.create({
+                key: "attackRight",
+                frames: this.anims.generateFrameNumbers("whiteSkeleAttack", {
+                    start: 18,
+                    end: 23,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+        } else if (this.monsterClass === MonsterClass.GREY) {
+            this.anims.create({
+                key: "attackUp",
+                frames: this.anims.generateFrameNumbers("greySkeleAttack", {
+                    start: 0,
+                    end: 5,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+            this.anims.create({
+                key: "attackLeft",
+                frames: this.anims.generateFrameNumbers("greySkeleAttack", {
+                    start: 6,
+                    end: 11,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+            this.anims.create({
+                key: "attackDown",
+                frames: this.anims.generateFrameNumbers("greySkeleAttack", {
+                    start: 12,
+                    end: 17,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+            this.anims.create({
+                key: "attackRight",
+                frames: this.anims.generateFrameNumbers("greySkeleAttack", {
+                    start: 18,
+                    end: 23,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+        } else if (this.monsterClass === MonsterClass.GREEN) {
+            this.anims.create({
+                key: "attackUp",
+                frames: this.anims.generateFrameNumbers("greenSkeleAttack", {
+                    start: 0,
+                    end: 5,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+            this.anims.create({
+                key: "attackLeft",
+                frames: this.anims.generateFrameNumbers("greenSkeleAttack", {
+                    start: 6,
+                    end: 11,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+            this.anims.create({
+                key: "attackDown",
+                frames: this.anims.generateFrameNumbers("greenSkeleAttack", {
+                    start: 12,
+                    end: 17,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
+                repeat: repeatValue,
+            });
+            this.anims.create({
+                key: "attackRight",
+                frames: this.anims.generateFrameNumbers("greenSkeleAttack", {
+                    start: 18,
+                    end: 23,
+                }),
+                frameRate: rateOfFrames,
+                yoyo: true,
                 repeat: repeatValue,
             });
         }

@@ -30,7 +30,8 @@ const monsterMoveSpeed = 120;
 let monsterID = 0;
 
 // Track the number of monsters
-let numberOfMobs = 25;
+let numberOfMonsters = 25;
+let moreMonsters = 10;
 
 // Locations for spawning monsters
 const spawnLocations = [
@@ -78,7 +79,7 @@ class GameScene extends Phaser.Scene {
         this.configMonsters();
 
         // Spawn the mobs
-        this.spawnMonsters(numberOfMobs);
+        this.spawnMonsters(numberOfMonsters);
 
         // Create the player
         this.createPlayer();
@@ -90,6 +91,13 @@ class GameScene extends Phaser.Scene {
     update() {
         // Call the player object update method
         this.player.update(this.cursors);
+
+        // If all mobs are dead, spawn double
+        if (numberOfMonsters < 1) {
+            moreMonsters *= 2;
+            this.spawnMonsters(moreMonsters);
+            numberOfMonsters = moreMonsters;
+        }
     }
 
     // Method creates the game map using the GameMap class defined in ../classes/GameMap.js
@@ -149,11 +157,11 @@ class GameScene extends Phaser.Scene {
             // Get a random spawn location
             spawnLocation = spawnLocations[Math.floor(Math.random() * 19)];
 
-            // Get a random monster class selection
-            classSelection = Math.floor(Math.random() * 3) + 1;
-
             // Create a new monster if there are no inactive monsters
             if (!monster) {
+                // Get a random monster class selection
+                classSelection = Math.floor(Math.random() * 3) + 1;
+
                 if (classSelection === MonsterClass.WHITE) {
                     monster = new Monster(this, spawnLocation[0], spawnLocation[1], "whiteSkeleWalk", `monster-${monsterID}`, classSelection);
                 } else if (classSelection === MonsterClass.GREY) {
@@ -177,12 +185,17 @@ class GameScene extends Phaser.Scene {
         }
     }
 
-    // Method creates collisions between map and creatures
+    // Method creates collisions between map vs creatures & creatures vs creatures
     addCollisions() {
         // Player vs map blocked layer
         this.physics.add.collider(this.player, this.map.blockedLayer);
 
         // Monsters vs map blocked layer
         this.physics.add.collider(this.monsters, this.map.blockedLayer);
+
+        // 
+        this.physics.add.overlap(this.player, this.monsters, (player, monster) => {
+            monster.markAsAttacking();
+        });
     }
 }

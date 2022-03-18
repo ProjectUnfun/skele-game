@@ -10,12 +10,14 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
         // Enable player physics
         this.scene.physics.world.enable(this);
 
-        // Config physics body
-        this.body.setSize(32, 36);
-        this.body.setOffset(16, 20);
-
         // Config combat
         this.configCombat();
+
+        // Config natural health & mana restore
+        this.healthRegenCount = 0;
+        this.maxHealthRegenCount = 300;
+        this.energyRegenCount = 0;
+        this.maxEnergyRegenCount = 150;
 
         // Create animations
         this.createWalkAnimations();
@@ -48,6 +50,10 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
 
     // Method configs combat
     configCombat() {
+        // Config physics body
+        this.body.setSize(32, 36);
+        this.body.setOffset(16, 20);
+
         // Config health - caster is a glass cannon
         this.health = 4;
         this.maxHealth = 4;
@@ -61,6 +67,9 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
 
         // Track damage dealing status
         this.isAttacking = false;
+
+        // Track damage receiving status
+        this.canBeAttacked = true;
 
         // Track hitbox location
         this.hitboxLocation = {
@@ -121,8 +130,8 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
             }
 
             // Set hitbox location where mouse was when attack was initiated
-            this.hitboxLocation.x = this.scene.input.mousePointer.x;
-            this.hitboxLocation.y = this.scene.input.mousePointer.y;
+            this.hitboxLocation.x = this.scene.input.mousePointer.worldX;
+            this.hitboxLocation.y = this.scene.input.mousePointer.worldY;
 
             this.hitbox.setPosition(this.hitboxLocation.x, this.hitboxLocation.y);
 
@@ -181,6 +190,25 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
             // Stop animations
             this.anims.stop();
 
+            // Process health regen
+            if (this.healthRegenCount > this.maxHealthRegenCount) {
+                this.healthRegenCount = 0;
+                this.health += 1;
+                if (this.health > this.maxHealth) this.health = this.maxHealth;
+            } else {
+                this.healthRegenCount++;
+            }
+
+            // Process mana regen
+            if (this.energyRegenCount > this.maxEnergyRegenCount) {
+                this.energyRegenCount = 0;
+                this.energy += 1;
+                if (this.energy > this.maxEnergy) this.energy = this.maxEnergy;
+            } else {
+                this.energyRegenCount++;
+            }
+
+
             // Check which direction player is facing and set frame
             if (this.currentDirection === Direction.DOWN) {
                 this.anims.play("walkDown", true);
@@ -225,6 +253,12 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
             this.currentDirection = Direction.DOWN;
             this.anims.play("walkDown", true);
         }
+    }
+
+    // Method handles updating health when damage is taken
+    updateHealth(amount) {
+        this.health -= amount;
+        console.log(`Player: ${this.playerName} has been damaged`);
     }
 
     // Method creates the name text
