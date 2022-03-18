@@ -112,7 +112,7 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
 
     // Method handles hitbox location assignment
     checkAttack(cursors) {
-        if (Phaser.Input.Keyboard.JustDown(cursors.space) && !this.isAttacking) {
+        if (Phaser.Input.Keyboard.JustDown(cursors.space) && !this.isAttacking && this.energy > 0) {
             // Stop animations and movement, alter attacking flag
             this.anims.stop();
             this.body.setVelocity(0);
@@ -258,6 +258,7 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
     // Method handles updating health when damage is taken
     updateHealth(amount) {
         this.health -= amount;
+        if (this.health < 0) this.health = 0;
         console.log(`Player: ${this.playerName} has been damaged`);
     }
 
