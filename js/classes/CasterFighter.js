@@ -17,9 +17,11 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
         this.starEffectOn = false;
         this.starAnimationOn = false;
         this.powerEffectOn = false;
+        this.powerAnimationOn = false;
 
         // Config item effects
         this.configStarEffect();
+        this.configPowerEffect();
 
         // Create animations
         this.createWalkAnimations();
@@ -370,8 +372,40 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
             this.starEffect.setAlpha(0);
         }
     }
+
+    // Method configs the power up item effect
+    configPowerEffect() {
+        this.powerEffect = this.scene.add.sprite(this.x, this.y, "powerEffect");
+
+        this.powerEffect.anims.create({
+            key: "powerUp",
+            frames: this.anims.generateFrameNumbers("powerEffect", {
+                start: 0,
+                end: 15,
+            }),
+            frameRate: 20,
+        });
+
+        this.scene.physics.world.enable(this.powerEffect);
+        this.powerEffect.setAlpha(0);
+        this.powerEffect.depth = 3;
+    }
+
     // Method handles power status effect
-    checkPowerStatus() { }
+    checkPowerStatus() {
+        if (this.powerEffectOn) {
+            this.powerEffect.setPosition(this.x, this.y + 6);
+            if (this.powerAnimationOn === false) {
+                this.powerEffect.play({ key: "powerUp", repeat: -1 });
+                this.powerEffect.setAlpha(1);
+                this.powerAnimationOn = true;
+            }
+        } else {
+            if (this.powerAnimationOn) this.powerEffect.stop();
+            this.powerAnimationOn = false;
+            this.powerEffect.setAlpha(0);
+        }
+    }
 
     // Method generatesd frames for walking animations
     createWalkAnimations() {

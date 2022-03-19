@@ -129,8 +129,11 @@ class BootScene extends Phaser.Scene {
 
     // Load the images
     loadImages() {
-        // // Background image for title & class selection screens
+        // Background image for title & class selection screens
         this.load.image("skeleBG", "assets/images/skullBG.png");
+
+        // Inventory panel image
+        this.load.image("bagPanel", "assets/images/inventoryPanel.png");
 
         // Fighter class hitbox (never seen, just used for physics body)
         this.load.image("playerHitbox", "assets/images/Players/hitboxImage.png");

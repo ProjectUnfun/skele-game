@@ -73,6 +73,8 @@ class GameScene extends Phaser.Scene {
         // Store name passed from NameScene
         this.playerName = data.name;
         this.playerClass = data.class;
+
+        this.scene.launch("Inventory");
     }
 
     create() {
@@ -99,6 +101,12 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
+        if (Phaser.Input.Keyboard.JustDown(this.cursors.shift)) {
+            this.events.emit(
+                "toggleBag"
+            );
+        }
+
         // Call the player object update method
         this.player.update(this.cursors);
 
@@ -242,10 +250,12 @@ class GameScene extends Phaser.Scene {
         // Player gathering item overlap event
         this.physics.add.overlap(this.player, this.items, (player, item) => {
             if (item.itemClass === ItemClass.POTION) {
+                // When player collides with a green gem, fill player health and energy
                 this.player.health = this.player.maxHealth;
                 this.player.energy = this.player.maxEnergy;
                 item.removeFromGame();
             } else if (item.itemClass === ItemClass.POWER && !this.player.powerEffectOn) {
+                // When player collides with red gem, alter player status
                 this.player.powerEffectOn = true;
                 item.removeFromGame();
                 this.time.delayedCall(
@@ -257,6 +267,7 @@ class GameScene extends Phaser.Scene {
                     this
                 );
             } else if (item.itemClass === ItemClass.STAR && !this.player.starEffectOn) {
+                // When a player collides with blue gem, alter player status
                 this.player.starEffectOn = true;
                 item.removeFromGame();
                 this.time.delayedCall(
