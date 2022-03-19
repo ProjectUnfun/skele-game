@@ -7,14 +7,14 @@ class BootScene extends Phaser.Scene {
         // Load the tiled map assets
         this.loadTiledMapAssets();
 
-        // Load the player and mob spritesheets
+        // Load the spritesheets
         this.loadSpriteSheets();
 
         // Load icon images for class selection scene
         this.loadClassIcons();
 
-        // Load the background image for name and class scenes
-        this.loadBackgroundImage();
+        // Load the images
+        this.loadImages();
     }
 
     // Load the assets for the tiled map
@@ -23,15 +23,10 @@ class BootScene extends Phaser.Scene {
         this.load.tilemapTiledJSON("map", "assets/level/IterativeMap4.json");
     }
 
-    // Load the assets for movement and attack animations for player and mobs
+    // Load the spritesheets
     loadSpriteSheets() {
-
-        // ***PLAYERS***
+        // Player walking sprites
         this.load.spritesheet("meleeWalk", "assets/images/Players/meleeWalk.png", {
-            frameWidth: 64,
-            frameHeight: 64,
-        });
-        this.load.spritesheet("meleeAttack", "assets/images/Players/meleeAttack.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
@@ -39,11 +34,17 @@ class BootScene extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 64,
         });
-        this.load.spritesheet("rangerAttack", "assets/images/Players/RangerAttack.png", {
+        this.load.spritesheet("mageWalk", "assets/images/Players/MageWalk.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
-        this.load.spritesheet("mageWalk", "assets/images/Players/MageWalk.png", {
+
+        // Player attacking sprites
+        this.load.spritesheet("meleeAttack", "assets/images/Players/meleeAttack.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+        this.load.spritesheet("rangerAttack", "assets/images/Players/RangerAttack.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
@@ -52,22 +53,46 @@ class BootScene extends Phaser.Scene {
             frameHeight: 64,
         });
 
+        // Ranger class arrow sprite
         this.load.spritesheet("arrow", "assets/images/Players/hitboxImage.png", {
             frameWidth: 32,
             frameHeight: 32,
         });
 
+        // Mage class spell sprite
         this.load.spritesheet("tornado", "assets/images/Players/tornado.png", {
             frameWidth: 128,
             frameHeight: 128,
         });
 
-        // ***MOBS***
-        this.load.spritesheet("greenSkeleWalk", "assets/images/Mobs/GreenSkeleWalk.png", {
+        // Star effect sprite
+        this.load.spritesheet("starEffect", "assets/images/Players/iceshield.png", {
+            frameWidth: 128,
+            frameHeight: 128,
+        });
+
+        // Power effect sprite
+        this.load.spritesheet("powerEffect", "assets/images/Players/firelion_down.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
-        this.load.spritesheet("greenSkeleAttack", "assets/images/Mobs/GreenSkeleAttack.png", {
+
+        // Item sprites
+        this.load.spritesheet("potion", "assets/images/Items/Potion.png", {
+            frameWidth: 32,
+            frameHeight: 32,
+        });
+        this.load.spritesheet("star", "assets/images/Items/Coin.png", {
+            frameWidth: 32,
+            frameHeight: 32,
+        });
+        this.load.spritesheet("power", "assets/images/Items/PowerUp.png", {
+            frameWidth: 32,
+            frameHeight: 32,
+        });
+
+        // Monster walking sprites
+        this.load.spritesheet("greenSkeleWalk", "assets/images/Mobs/GreenSkeleWalk.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
@@ -75,11 +100,17 @@ class BootScene extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 64,
         });
-        this.load.spritesheet("greySkeleAttack", "assets/images/Mobs/GreySkeleAttack.png", {
+        this.load.spritesheet("whiteSkeleWalk", "assets/images/Mobs/WhiteSkeleWalk.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
-        this.load.spritesheet("whiteSkeleWalk", "assets/images/Mobs/WhiteSkeleWalk.png", {
+
+        // Monster attacking sprites
+        this.load.spritesheet("greenSkeleAttack", "assets/images/Mobs/GreenSkeleAttack.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+        this.load.spritesheet("greySkeleAttack", "assets/images/Mobs/GreySkeleAttack.png", {
             frameWidth: 64,
             frameHeight: 64,
         });
@@ -96,18 +127,13 @@ class BootScene extends Phaser.Scene {
         this.load.image("mageIcon", "assets/images/ClassIcons/MageIcon.png");
     }
 
-    // Load the background image for name & class scenes
-    loadBackgroundImage() {
+    // Load the images
+    loadImages() {
+        // // Background image for title & class selection screens
         this.load.image("skeleBG", "assets/images/skullBG.png");
-    }
 
-    // Load the assets for player and monster hitboxes
-    loadHitboxingImages() {
-        // Monster hitbox (never seen, just used for physics body)
+        // Fighter class hitbox (never seen, just used for physics body)
         this.load.image("playerHitbox", "assets/images/Players/hitboxImage.png");
-
-        // Monster hitbox (never seen, just used for physics body)
-        this.load.image("monsterHitbox", "assets/images/Mobs/AttackBounds.png");
     }
 
     // Start the next scene

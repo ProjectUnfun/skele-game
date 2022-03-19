@@ -8,7 +8,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         this.id = id;
         this.monsterClass = monsterClass;
 
-        // Enable player physics
+        // Enable physics
         this.scene.physics.world.enable(this);
 
         // Config physics body
@@ -30,7 +30,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         // Create health bar
         this.createHealthBar();
 
-        // Add monster object to scene
+        // Add object to scene
         this.scene.add.existing(this);
     }
 
@@ -193,9 +193,13 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
     // Method handles death
     checkDeath() {
         if (this.health <= 0) {
+            // Call for dropped item spawner in GameScene
+            this.scene.spawnItem(this.x, this.y, this.monsterClass);
+
             // Decrement monster counter
             numberOfMonsters--;
-            console.log(`numberOfMonsters = ${numberOfMonsters}`);
+            console.log(`Monster: ${this.id} has been slain`);
+            console.log(`Remaining monsters: ${numberOfMonsters}`);
 
             // Set the monster to inactive
             this.makeInactive();

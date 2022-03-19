@@ -20,6 +20,13 @@ const MonsterClass = {
     GREEN: 3,
 }
 
+// Enum for tracking item class
+const ItemClass = {
+    POTION: 0,
+    POWER: 1,
+    STAR: 2,
+}
+
 // Track movement velocity of player in game
 const playerMoveSpeed = 160;
 
@@ -77,6 +84,9 @@ class GameScene extends Phaser.Scene {
 
         // Config the mobs
         this.configMonsters();
+
+        // Config the items
+        this.configItems();
 
         // Spawn the mobs
         this.spawnMonsters(numberOfMonsters);
@@ -185,6 +195,37 @@ class GameScene extends Phaser.Scene {
         }
     }
 
+    // Method creates a physics collection for item containment
+    configItems() {
+        this.items = this.physics.add.group();
+        this.items.runChildUpdate = true;
+    }
+
+    // Method handles spawning of items when a monster dies
+    spawnItem(locationX, locationY, monsterClass) {
+        // Determine which item type should be spawned based on class of monster that died
+        let itemClass;
+        if (monsterClass === MonsterClass.GREEN) {
+            itemClass = ItemClass.POTION;
+        } else if (monsterClass === MonsterClass.GREY) {
+            itemClass = ItemClass.POWER;
+        } else if (monsterClass === MonsterClass.WHITE) {
+            itemClass = ItemClass.STAR;
+        }
+
+        // Create item based on type determined above
+        let newItem;
+        if (itemClass === ItemClass.POTION) {
+            newItem = new GameItem(this, locationX, locationY, "potion", itemClass);
+        } else if (itemClass === ItemClass.POWER) {
+            newItem = new GameItem(this, locationX, locationY, "power", itemClass);
+        } else if (itemClass === ItemClass.STAR) {
+            newItem = new GameItem(this, locationX, locationY, "star", itemClass);
+        }
+
+        this.items.add(newItem);
+    }
+
     // Method creates collisions between map vs creatures & creatures vs creatures
     addCollisions() {
         // Player vs map blocked layer
@@ -193,9 +234,40 @@ class GameScene extends Phaser.Scene {
         // Monsters vs map blocked layer
         this.physics.add.collider(this.monsters, this.map.blockedLayer);
 
-        // 
+        // Monster attacking player overlap event
         this.physics.add.overlap(this.player, this.monsters, (player, monster) => {
             monster.markAsAttacking();
+        });
+
+        // Player gathering item overlap event
+        this.physics.add.overlap(this.player, this.items, (player, item) => {
+            if (item.itemClass === ItemClass.POTION) {
+                this.player.health = this.player.maxHealth;
+                this.player.energy = this.player.maxEnergy;
+                item.removeFromGame();
+            } else if (item.itemClass === ItemClass.POWER && !this.player.powerEffectOn) {
+                this.player.powerEffectOn = true;
+                item.removeFromGame();
+                this.time.delayedCall(
+                    7500,
+                    () => {
+                        this.player.powerEffectOn = false;
+                    },
+                    [],
+                    this
+                );
+            } else if (item.itemClass === ItemClass.STAR && !this.player.starEffectOn) {
+                this.player.starEffectOn = true;
+                item.removeFromGame();
+                this.time.delayedCall(
+                    7500,
+                    () => {
+                        this.player.starEffectOn = false;
+                    },
+                    [],
+                    this
+                );
+            }
         });
     }
 }

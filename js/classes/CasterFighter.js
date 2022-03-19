@@ -13,6 +13,14 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
         // Config combat
         this.configCombat();
 
+        // Track item effect status
+        this.starEffectOn = false;
+        this.starAnimationOn = false;
+        this.powerEffectOn = false;
+
+        // Config item effects
+        this.configStarEffect();
+
         // Create animations
         this.createWalkAnimations();
         this.createAttackAnimations();
@@ -40,12 +48,14 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
         this.updateNameText();
         this.updateHealthBar();
         this.updateEnergyBar();
+        this.checkStarStatus();
+        this.checkPowerStatus();
     }
 
     // Method configs combat
     configCombat() {
         // Config physics body
-        this.body.setSize(32, 36);
+        this.body.setSize(32, 32);
         this.body.setOffset(16, 20);
 
         // Config natural health & mana restore
@@ -107,7 +117,12 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
     }
 
     handleEnemyAttacked(enemy) {
-        enemy.updateHealth(this.attackValue);
+        if (this.powerEffectOn) {
+            enemy.updateHealth(this.attackValue * 2);
+        } else {
+            enemy.updateHealth(this.attackValue);
+        }
+
     }
 
     // Method handles hitbox location assignment
@@ -145,7 +160,7 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
             this.hitbox.play({ key: "windSpell", repeat: 0 });
 
             // Deplete player energy for each attack
-            this.energy--;
+            if (!this.starEffectOn) this.energy--;
 
             // Delay player attack repetition by .3 seconds
             this.scene.time.delayedCall(
@@ -257,9 +272,13 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
 
     // Method handles updating health when damage is taken
     updateHealth(amount) {
-        this.health -= amount;
-        if (this.health < 0) this.health = 0;
-        console.log(`Player: ${this.playerName} has been damaged`);
+        if (!this.starEffectOn) {
+            this.health -= amount;
+            if (this.health < 0) this.health = 0;
+            console.log(`Player: ${this.playerName} has been damaged`);
+        } else {
+            console.log("Player is impervious to damage when star effect is on.")
+        }
     }
 
     // Method creates the name text
@@ -317,6 +336,42 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
             5
         );
     }
+
+    // Method configs the star item effect
+    configStarEffect() {
+        this.starEffect = this.scene.add.sprite(this.x, this.y, "starEffect");
+
+        this.starEffect.anims.create({
+            key: "starPower",
+            frames: this.anims.generateFrameNumbers("starEffect", {
+                start: 0,
+                end: 15,
+            }),
+            frameRate: 15,
+        });
+
+        this.scene.physics.world.enable(this.starEffect);
+        this.starEffect.setAlpha(0);
+        this.starEffect.depth = 4;
+    }
+
+    // Method handles star status effect
+    checkStarStatus() {
+        if (this.starEffectOn) {
+            this.starEffect.setPosition(this.x + 6, this.y + 6);
+            if (this.starAnimationOn === false) {
+                this.starEffect.play({ key: "starPower", repeat: -1 });
+                this.starEffect.setAlpha(1);
+                this.starAnimationOn = true;
+            }
+        } else {
+            if (this.starAnimationOn) this.starEffect.stop();
+            this.starAnimationOn = false;
+            this.starEffect.setAlpha(0);
+        }
+    }
+    // Method handles power status effect
+    checkPowerStatus() { }
 
     // Method generatesd frames for walking animations
     createWalkAnimations() {
