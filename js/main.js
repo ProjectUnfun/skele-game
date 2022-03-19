@@ -5,10 +5,10 @@ var config = {
     parent: "game-div",
     scene: [
         BootScene,
-        InventoryScene,
         NameScene,
         ClassScene,
         GameScene,
+        InventoryScene,
     ],
     dom: {
         createContainer: true

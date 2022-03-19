@@ -15,11 +15,11 @@ class InventoryScene extends Phaser.Scene {
 
     create() {
         // Display the inventory panel image
-        this.backgroundImage = this.gameScene.add.image(10, 390, "bagPanel");
+        this.backgroundImage = this.add.image(10, 390, "bagPanel");
         this.backgroundImage.setOrigin(0);
 
         // Display inventory Text
-        this.bagText = this.gameScene.add.text(55, 405, "Inventory", {
+        this.bagText = this.add.text(55, 405, "Inventory", {
             color: "#000000",
             fontSize: 24,
             fontFamily: "Lucifer",
@@ -31,12 +31,8 @@ class InventoryScene extends Phaser.Scene {
         this.gameScene.events.on("toggleBag", () => {
             if (this.scene.isActive("Inventory")) {
                 this.scene.sleep("Inventory");
-                this.backgroundImage.setAlpha(0);
-                this.bagText.setAlpha(0);
             } else if (!this.scene.isActive("Inventory")) {
                 this.scene.wake("Inventory");
-                this.backgroundImage.setAlpha(1);
-                this.bagText.setAlpha(1);
             }
         });
     }
