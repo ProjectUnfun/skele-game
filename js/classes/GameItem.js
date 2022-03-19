@@ -35,7 +35,7 @@ class GameItem extends Phaser.Physics.Arcade.Sprite {
 
     // Method creates animation based on item class
     createAnimations() {
-        let rateOfFrames = 8;
+        let rateOfFrames = 12;
         let repeatValue = -1;
 
         if (this.itemClass === ItemClass.POTION) {
@@ -43,7 +43,7 @@ class GameItem extends Phaser.Physics.Arcade.Sprite {
                 key: "itemAnim",
                 frames: this.anims.generateFrameNumbers("potion", {
                     start: 0,
-                    end: 11,
+                    end: 3,
                 }),
                 frameRate: rateOfFrames,
                 repeat: repeatValue,
@@ -53,7 +53,7 @@ class GameItem extends Phaser.Physics.Arcade.Sprite {
                 key: "itemAnim",
                 frames: this.anims.generateFrameNumbers("power", {
                     start: 0,
-                    end: 7,
+                    end: 3,
                 }),
                 frameRate: rateOfFrames,
                 repeat: repeatValue,
@@ -63,7 +63,7 @@ class GameItem extends Phaser.Physics.Arcade.Sprite {
                 key: "itemAnim",
                 frames: this.anims.generateFrameNumbers("star", {
                     start: 0,
-                    end: 5,
+                    end: 3,
                 }),
                 frameRate: rateOfFrames,
                 repeat: repeatValue,
