@@ -213,6 +213,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         this.anims.play("walkDown", true);
         this.setFrame(18);
         this.currentDirection = Direction.DOWN;
+        this.health = this.maxHealth;
 
         // Sets spawn location with the random location array passed in
         this.setPosition(locationArray[0], locationArray[1]);

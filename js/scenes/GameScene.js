@@ -37,8 +37,8 @@ const monsterMoveSpeed = 120;
 let monsterID = 0;
 
 // Track the number of monsters
-let numberOfMonsters = 25;
-let moreMonsters = 10;
+let numberOfMonsters = 5;
+let moreMonsters = 5;
 
 // Locations for spawning monsters
 const spawnLocations = [
@@ -62,7 +62,6 @@ const spawnLocations = [
     [869, 1063],
     [1341, 474],
 ]
-
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -101,12 +100,6 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(this.cursors.shift)) {
-            this.events.emit(
-                "toggleBag"
-            );
-        }
-
         // Call the player object update method
         this.player.update(this.cursors);
 
@@ -224,14 +217,22 @@ class GameScene extends Phaser.Scene {
         // Create item based on type determined above
         let newItem;
         if (itemClass === ItemClass.POTION) {
-            newItem = new GameItem(this, locationX, locationY, "potion", itemClass);
+            if ((Math.floor(Math.random() * 11)) > 3) {
+                newItem = new GameItem(this, locationX, locationY, "potion", itemClass);
+            }
         } else if (itemClass === ItemClass.POWER) {
-            newItem = new GameItem(this, locationX, locationY, "power", itemClass);
+            if ((Math.floor(Math.random() * 11)) > 5) {
+                newItem = new GameItem(this, locationX, locationY, "power", itemClass);
+            }
         } else if (itemClass === ItemClass.STAR) {
-            newItem = new GameItem(this, locationX, locationY, "star", itemClass);
+            if ((Math.floor(Math.random() * 11)) > 7) {
+                newItem = new GameItem(this, locationX, locationY, "star", itemClass);
+            }
         }
 
-        this.items.add(newItem);
+        if (newItem) {
+            this.items.add(newItem);
+        }
     }
 
     // Method creates collisions between map vs creatures & creatures vs creatures
@@ -250,12 +251,10 @@ class GameScene extends Phaser.Scene {
         // Player gathering item overlap event
         this.physics.add.overlap(this.player, this.items, (player, item) => {
             if (item.itemClass === ItemClass.POTION) {
-                // When player collides with a green gem, fill player health and energy
                 this.player.health = this.player.maxHealth;
                 this.player.energy = this.player.maxEnergy;
                 item.removeFromGame();
             } else if (item.itemClass === ItemClass.POWER && !this.player.powerEffectOn) {
-                // When player collides with red gem, alter player status
                 this.player.powerEffectOn = true;
                 item.removeFromGame();
                 this.time.delayedCall(
@@ -267,7 +266,6 @@ class GameScene extends Phaser.Scene {
                     this
                 );
             } else if (item.itemClass === ItemClass.STAR && !this.player.starEffectOn) {
-                // When a player collides with blue gem, alter player status
                 this.player.starEffectOn = true;
                 item.removeFromGame();
                 this.time.delayedCall(

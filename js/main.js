@@ -8,7 +8,6 @@ var config = {
         NameScene,
         ClassScene,
         GameScene,
-        InventoryScene,
     ],
     dom: {
         createContainer: true
@@ -16,7 +15,7 @@ var config = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: true,
+            debug: false,
             gravity: {
                 y: 0,
             },
