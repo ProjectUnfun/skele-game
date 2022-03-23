@@ -109,6 +109,9 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
         } else {
             enemy.updateHealth(this.attackValue);
         }
+
+        // Play arrow impact audio
+        this.scene.rangerArrowAudio.play();
     }
 
     // Method handles hitbox location assignment
@@ -156,6 +159,9 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
             }
 
             arrow.makeArrowActive();
+
+            // Play bow audio
+            this.scene.rangerBowAudio.play();
 
             // Deplete player energy for each attack
             if (this.starEffectOn === false) this.energy--;
@@ -254,8 +260,11 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
         if (!this.starEffectOn) {
             this.health -= amount;
             if (this.health < 0) this.health = 0;
+            this.scene.rangerDamagedAudio.play();
+            this.scene.skeleAttackAudio.play();
             console.log(`Player: ${this.playerName} has been damaged`);
         } else {
+            this.scene.shieldHitAudio.play();
             console.log("Player is impervious to damage when star effect is on.")
         }
     }

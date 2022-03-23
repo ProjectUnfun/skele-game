@@ -31,7 +31,7 @@ const ItemClass = {
 const playerMoveSpeed = 160;
 
 // Track movement velocity of monsters in game
-const monsterMoveSpeed = 120;
+const monsterMoveSpeed = 160;
 
 // Track the ID of monsters
 let monsterID = 0;
@@ -72,8 +72,6 @@ class GameScene extends Phaser.Scene {
         // Store name passed from NameScene
         this.playerName = data.name;
         this.playerClass = data.class;
-
-        this.scene.launch("Inventory");
     }
 
     create() {
@@ -97,6 +95,9 @@ class GameScene extends Phaser.Scene {
 
         // Add collisions with the map
         this.addCollisions();
+
+        // Create audio
+        this.createAudio();
     }
 
     update() {
@@ -126,6 +127,75 @@ class GameScene extends Phaser.Scene {
     // Method creates the game input using Phaser method
     createInputCursors() {
         this.cursors = this.input.keyboard.createCursorKeys();
+    }
+
+    // Method creates the audio clips
+    createAudio() {
+        // Skele audio
+        this.skeleDeathAudio = this.sound.add("skeleDeath", {
+            loop: false,
+            volume: 1.1,
+        });
+        this.skeleDamagedAudio = this.sound.add("skeleHit", {
+            loop: false,
+            volume: 1.3,
+        });
+        this.skeleAttackAudio = this.sound.add("skeleAttack", {
+            loop: false,
+            volume: 1.1,
+        });
+
+        // Melee audio
+        this.meleeAttackAudio = this.sound.add("meleeAttack", {
+            loop: false,
+            volume: 0.8,
+        });
+        this.meleeDamagedAudio = this.sound.add("meleeHit", {
+            loop: false,
+            volume: 1.6,
+        });
+
+        // Ranger audio
+        this.rangerBowAudio = this.sound.add("bowRelease", {
+            loop: false,
+            volume: 2.8,
+        });
+        this.rangerArrowAudio = this.sound.add("arrowImpact", {
+            loop: false,
+            volume: 2.2,
+        });
+        this.rangerDamagedAudio = this.sound.add("rangerHit", {
+            loop: false,
+            volume: 0.8,
+        });
+
+        // Mage audio
+        this.mageAttackAudio = this.sound.add("mageAttack", {
+            loop: false,
+            volume: 1.8,
+        });
+        this.mageDamagedAudio = this.sound.add("mageHit", {
+            loop: false,
+            volume: 1.8,
+        });
+
+        // Crystal audio
+        this.crystalFoundAudio = this.sound.add("crystal", {
+            loop: false,
+            volume: 0.8,
+        });
+        this.shieldHitAudio = this.sound.add("shieldHit", {
+            loop: false,
+            volume: 1.8,
+        });
+        this.shieldOnAudio = this.sound.add("shieldOn", {
+            loop: true,
+            volume: 1.2,
+        })
+        this.powerUpAudio = this.sound.add("powerUp", {
+            loop: true,
+            volume: 1.8,
+        });
     }
 
     // Method creates the user player using the Player class defined in ../classes/Player.js
@@ -225,7 +295,7 @@ class GameScene extends Phaser.Scene {
                 newItem = new GameItem(this, locationX, locationY, "power", itemClass);
             }
         } else if (itemClass === ItemClass.STAR) {
-            if ((Math.floor(Math.random() * 11)) > 7) {
+            if ((Math.floor(Math.random() * 11)) > 6) {
                 newItem = new GameItem(this, locationX, locationY, "star", itemClass);
             }
         }
@@ -253,14 +323,18 @@ class GameScene extends Phaser.Scene {
             if (item.itemClass === ItemClass.POTION) {
                 this.player.health = this.player.maxHealth;
                 this.player.energy = this.player.maxEnergy;
+                this.crystalFoundAudio.play();
                 item.removeFromGame();
             } else if (item.itemClass === ItemClass.POWER && !this.player.powerEffectOn) {
                 this.player.powerEffectOn = true;
+                this.crystalFoundAudio.play();
+                this.powerUpAudio.play();
                 item.removeFromGame();
                 this.time.delayedCall(
                     7500,
                     () => {
                         this.player.powerEffectOn = false;
+                        this.powerUpAudio.stop();
                     },
                     [],
                     this
@@ -268,10 +342,13 @@ class GameScene extends Phaser.Scene {
             } else if (item.itemClass === ItemClass.STAR && !this.player.starEffectOn) {
                 this.player.starEffectOn = true;
                 item.removeFromGame();
+                this.crystalFoundAudio.play();
+                this.shieldOnAudio.play();
                 this.time.delayedCall(
                     7500,
                     () => {
                         this.player.starEffectOn = false;
+                        this.shieldOnAudio.stop();
                     },
                     [],
                     this

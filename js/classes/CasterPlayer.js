@@ -149,11 +149,13 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
             // Set hitbox location where mouse was when attack was initiated
             this.hitboxLocation.x = this.scene.input.mousePointer.worldX;
             this.hitboxLocation.y = this.scene.input.mousePointer.worldY;
-
             this.hitbox.setPosition(this.hitboxLocation.x, this.hitboxLocation.y);
 
             // Activate hitbox for attack detection
             this.makeHitboxActive();
+
+            // Play attack audio
+            this.scene.mageAttackAudio.play();
 
             // Make hitbox visible
             this.hitbox.setAlpha(1);
@@ -277,8 +279,11 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
         if (!this.starEffectOn) {
             this.health -= amount;
             if (this.health < 0) this.health = 0;
+            this.scene.mageDamagedAudio.play();
+            this.scene.skeleAttackAudio.play();
             console.log(`Player: ${this.playerName} has been damaged`);
         } else {
+            this.scene.shieldHitAudio.play();
             console.log("Player is impervious to damage when star effect is on.")
         }
     }

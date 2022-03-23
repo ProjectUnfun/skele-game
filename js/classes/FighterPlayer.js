@@ -146,6 +146,9 @@ class FighterPlayer extends Phaser.Physics.Arcade.Sprite {
             // Activate hitbox for attack detection
             this.makeHitboxActive();
 
+            // Play attack audio
+            this.scene.meleeAttackAudio.play();
+
             // Deplete player energy for each attack
             if (!this.starEffectOn) this.energy--;
 
@@ -264,8 +267,11 @@ class FighterPlayer extends Phaser.Physics.Arcade.Sprite {
         if (!this.starEffectOn) {
             this.health -= amount;
             if (this.health < 0) this.health = 0;
+            this.scene.meleeDamagedAudio.play();
+            this.scene.skeleAttackAudio.play();
             console.log(`Player: ${this.playerName} has been damaged`);
         } else {
+            this.scene.shieldHitAudio.play();
             console.log("Player is impervious to damage when star effect is on.")
         }
     }

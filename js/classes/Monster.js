@@ -171,7 +171,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
                 );
             }
 
-            // Delay player attack repetition by .3 seconds
+            // Delay monster attack repetition by .3 seconds
             this.scene.time.delayedCall(
                 300,
                 () => {
@@ -187,6 +187,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
     // Method handles updating health when damage is taken
     updateHealth(amount) {
         this.health -= amount;
+        this.scene.skeleDamagedAudio.play();
         console.log(`Monster: ${this.id} has been damaged`);
     }
 
@@ -195,6 +196,8 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         if (this.health <= 0) {
             // Call for dropped item spawner in GameScene
             this.scene.spawnItem(this.x, this.y, this.monsterClass);
+
+            this.scene.skeleDeathAudio.play();
 
             // Decrement monster counter
             numberOfMonsters--;

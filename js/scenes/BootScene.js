@@ -15,6 +15,9 @@ class BootScene extends Phaser.Scene {
 
         // Load the images
         this.loadImages();
+
+        // Load the audio
+        this.loadAudio();
     }
 
     // Load the assets for the tiled map
@@ -132,11 +135,38 @@ class BootScene extends Phaser.Scene {
         // Background image for title & class selection screens
         this.load.image("skeleBG", "assets/images/skullBG.png");
 
-        // Inventory panel image
-        this.load.image("bagPanel", "assets/images/inventoryPanel.png");
-
         // Fighter class hitbox (never seen, just used for physics body)
         this.load.image("playerHitbox", "assets/images/Players/hitboxImage.png");
+    }
+
+    // Method loads in the game audio
+    loadAudio() {
+        // Skele sounds
+        this.load.audio("skeleDeath", ["assets/audio/EnemyDeath.wav"]);
+        this.load.audio("skeleHit", ["assets/audio/Breaking-Bones.mp3"]);
+        this.load.audio("skeleAttack", ["assets/audio/MonsterAttack.wav"]);
+
+        // Melee sounds
+        this.load.audio("meleeAttack", ["assets/audio/PlayerAttack.wav"]);
+        this.load.audio("meleeHit", ["assets/audio/PlayerDamaged.wav"]);
+
+        // Ranger sounds
+        this.load.audio("rangerHit", ["assets/audio/RangerGrunt.mp3"]);
+        this.load.audio("bowRelease", ["assets/audio/bowRelease.mp3"]);
+        this.load.audio("arrowImpact", ["assets/audio/arrowHit.mp3"]);
+
+        // Mage sounds
+        this.load.audio("mageHit", ["assets/audio/mageHit.wav"]);
+        this.load.audio("mageAttack", ["assets/audio/mageAttack.mp3"]);
+
+        // Background music
+        this.load.audio("bgTrack", ["assets/audio/epic.mp3"]);
+
+        // Crystal sounds
+        this.load.audio("crystal", ["assets/audio/coinCollect.mp3"]);
+        this.load.audio("shieldHit", ["assets/audio/shieldHit.mp3"]);
+        this.load.audio("shieldOn", ["assets/audio/shieldOn.mp3"]);
+        this.load.audio("powerUp", ["assets/audio/powerUp.mp3"]);
     }
 
     // Start the next scene
