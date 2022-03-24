@@ -29,7 +29,7 @@ class ScoreScene extends Phaser.Scene {
         });
 
         // Create mobs text
-        this.mobsText = this.add.text(200, 5, "Monsters: 5", {
+        this.mobsText = this.add.text(200, 5, "Monsters: 10", {
             fontSize: "24px",
             fill: "#fff",
             fontFamily: "Lucifer",

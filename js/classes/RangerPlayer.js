@@ -58,7 +58,7 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
     configCombat() {
         // Config physics body
         this.body.setSize(32, 32);
-        this.body.setOffset(16, 20);
+        this.body.setOffset(16, 28);
 
         // Config natural health & mana restore
         this.healthRegenCount = 0;
@@ -128,6 +128,7 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
             let arrow = this.arrows.getFirstDead();
             if (!arrow) {
                 arrow = new PlayerArrow(this.scene, this.x, this.y, "arrow");
+                arrow.body.setSize(16, 16);
                 this.arrows.add(arrow);
             } else {
                 arrow.makeArrowActive();

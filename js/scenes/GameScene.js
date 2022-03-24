@@ -28,35 +28,35 @@ const ItemClass = {
 }
 
 // Track movement velocity of player in game
-const playerMoveSpeed = 160;
+const playerMoveSpeed = 180;
 
 // Track movement velocity of monsters in game
-const monsterMoveSpeed = 160;
+const monsterMoveSpeed = 180;
 
 // Track the ID of monsters
 let monsterID = 0;
 
 // Locations for spawning monsters
 const spawnLocations = [
-    [352, 480],
-    [800, 608],
-    [1280, 224],
-    [1200, 999],
-    [640, 864],
-    [128, 928],
-    [1024, 96],
-    [1056, 736],
-    [650, 253],
-    [480, 109],
-    [75, 835],
-    [944, 484],
-    [293, 532],
-    [1272, 938],
-    [1296, 100],
-    [891, 167],
-    [600, 957],
-    [869, 1063],
-    [1341, 474],
+    [2226, 654],
+    [2223, 1185],
+    [1576, 468],
+    [430, 633],
+    [145, 1734],
+    [1036, 2132],
+    [1948, 1925],
+    [1798, 1382],
+    [2736, 2081],
+    [2576, 1701],
+    [1998, 927],
+    [943, 1028],
+    [574, 1670],
+    [1171, 1664],
+    [151, 223],
+    [1723, 216],
+    [2593, 345],
+    [2506, 864],
+    [2259, 2082],
 ]
 
 class GameScene extends Phaser.Scene {
@@ -74,8 +74,8 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
-        this.numberOfMonsters = 5;
-        this.moreMonsters = 5;
+        this.numberOfMonsters = 10;
+        this.moreMonsters = 10;
 
         // Create the input keys
         this.createInputCursors();
@@ -100,6 +100,13 @@ class GameScene extends Phaser.Scene {
 
         // Create audio
         this.createAudio();
+
+        // TEMP CODE FOR COORDINATE FINDING
+        this.returnKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.returnKey.on("down", event => {
+            console.log(`Player X: ${this.player.x}`);
+            console.log(`Player Y: ${this.player.y}`);
+        });
     }
 
     update() {
@@ -127,7 +134,8 @@ class GameScene extends Phaser.Scene {
             "terrain_atlas",
             "Ground",
             "Blocked",
-            "Deco1"
+            "Deco1",
+            "Deco2"
         );
     }
 
@@ -208,11 +216,11 @@ class GameScene extends Phaser.Scene {
     // Method creates the user player using the Player class defined in ../classes/Player.js
     createPlayer() {
         if (this.playerClass === PlayerClass.FIGHTER) {
-            this.player = new FighterPlayer(this, 96, 160, "meleeWalk", this.playerName);
+            this.player = new FighterPlayer(this, 2624, 163, "meleeWalk", this.playerName);
         } else if (this.playerClass === PlayerClass.RANGER) {
-            this.player = new RangerPlayer(this, 96, 160, "rangerWalk", this.playerName);
+            this.player = new RangerPlayer(this, 2624, 163, "rangerWalk", this.playerName);
         } else if (this.playerClass === PlayerClass.CASTER) {
-            this.player = new CasterPlayer(this, 96, 160, "mageWalk", this.playerName);
+            this.player = new CasterPlayer(this, 2624, 163, "mageWalk", this.playerName);
         }
 
     }

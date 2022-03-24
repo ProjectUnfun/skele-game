@@ -23,7 +23,7 @@ class BootScene extends Phaser.Scene {
     // Load the assets for the tiled map
     loadTiledMapAssets() {
         this.load.image("terrain_atlas", "assets/level/terrain_atlas.png");
-        this.load.tilemapTiledJSON("map", "assets/level/IterativeMap4.json");
+        this.load.tilemapTiledJSON("map", "assets/level/SingleSkeleMap.json");
     }
 
     // Load the spritesheets

@@ -5,7 +5,8 @@ class GameMap {
         tileSetName,
         groundLayerName,
         blockedLayerName,
-        deco1LayerName
+        deco1LayerName,
+        deco2LayerName
     ) {
         this.scene = scene; // The scene this map belongs to
         this.key = key; // Tiled JSON file key name
@@ -13,6 +14,7 @@ class GameMap {
         this.groundLayerName = groundLayerName; // Bottom layer
         this.blockedLayerName = blockedLayerName; // Blocked layer
         this.deco1LayerName = deco1LayerName; // Decorative layer
+        this.deco2LayerName = deco2LayerName;
         this.createMap();
     }
 
@@ -46,6 +48,16 @@ class GameMap {
             0,
             0
         );
+
+        // Store the deco2 layer
+        this.deco2Layer = this.map.createLayer(
+            this.deco2LayerName,
+            this.tiles,
+            0,
+            0
+        );
+
+        this.deco2Layer.setDepth(10);
 
         // Set blocked layer collisions (passed -1 to check all tiles in layer)
         this.blockedLayer.setCollisionByExclusion([-1]);
