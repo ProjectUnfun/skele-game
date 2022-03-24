@@ -64,15 +64,15 @@ class FighterPlayer extends Phaser.Physics.Arcade.Sprite {
         this.healthRegenCount = 0;
         this.maxHealthRegenCount = 150;
         this.energyRegenCount = 0;
-        this.maxEnergyRegenCount = 75;
+        this.maxEnergyRegenCount = 50;
 
         // Config health - melee needs to be able to take hits
-        this.health = 9;
-        this.maxHealth = 9;
+        this.health = 12;
+        this.maxHealth = 12;
 
         // Config energy - melee should be able to attack 9x before out of energy
-        this.energy = 9;
-        this.maxEnergy = 9;
+        this.energy = 12;
+        this.maxEnergy = 12;
 
         // Config attack value - melee should kill a monster in 3 hits
         this.attackValue = 3;

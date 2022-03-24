@@ -101,6 +101,11 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
+        // Check player death
+        if (this.player.health < 1) {
+            this.scene.start("End", { name: this.player.playerName });
+        }
+
         // Call the player object update method
         this.player.update(this.cursors);
 
@@ -316,6 +321,19 @@ class GameScene extends Phaser.Scene {
         // Monster attacking player overlap event
         this.physics.add.overlap(this.player, this.monsters, (player, monster) => {
             monster.markAsAttacking();
+
+            // Change window border to red temporarily to indicate player taking damage
+            document.getElementById("game-div").style.borderColor = "red";
+
+            // Return window border to grey after delay
+            this.time.delayedCall(
+                250,
+                () => {
+                    document.getElementById("game-div").style.borderColor = "grey";
+                },
+                [],
+                this
+            );
         });
 
         // Player gathering item overlap event

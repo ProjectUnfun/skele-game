@@ -62,17 +62,17 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
 
         // Config natural health & mana restore
         this.healthRegenCount = 0;
-        this.maxHealthRegenCount = 200;
+        this.maxHealthRegenCount = 250;
         this.energyRegenCount = 0;
-        this.maxEnergyRegenCount = 50;
+        this.maxEnergyRegenCount = 62;
 
         // Config health - ranger needs some durability
-        this.health = 6;
-        this.maxHealth = 6;
+        this.health = 7;
+        this.maxHealth = 7;
 
         // Config energy - ranger should be able to attack 16x before out of energy
-        this.energy = 16;
-        this.maxEnergy = 16;
+        this.energy = 20;
+        this.maxEnergy = 20;
 
         // Config attack value - ranger should kill a monster in 4 hits
         this.attackValue = 2;

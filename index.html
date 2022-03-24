@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skele-game</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="preload" as="font" href="assets/LUCIFER_.ttf" type="font/ttf" crossorigin="anonymous">
     <style media="screen" type="text/css">
         @font-face {
@@ -15,7 +16,7 @@
 </head>
 <body>
     <!-- Div is used to contain canvas object for CSS-->
-    <div id="game-div"></div>
+    <div id="game-div" class="index-only"></div>
 
     <!-- Phaser script -->
     <script src="js/lib/phaser.min.js"></script>
@@ -33,6 +34,7 @@
     <script src="js/scenes/BootScene.js"></script>
     <script src="js/scenes/NameScene.js"></script>
     <script src="js/scenes/ClassScene.js"></script>
+    <script src="js/scenes/EndScene.js"></script>
     <script src="js/scenes/GameScene.js"></script>
 
     <!-- Main script -->

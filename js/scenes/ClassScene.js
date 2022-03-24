@@ -29,11 +29,32 @@ class ClassScene extends Phaser.Scene {
 
         // Create image button click event listeners
         this.createButtonListeners();
+
+        // SFX
+        this.meleeDamagedAudio = this.sound.add("meleeHit", {
+            loop: false,
+            volume: 1.6,
+        });
+        this.rangerDamagedAudio = this.sound.add("rangerHit", {
+            loop: false,
+            volume: 0.8,
+        });
+        this.mageDamagedAudio = this.sound.add("mageHit", {
+            loop: false,
+            volume: 1.8,
+        });
     }
 
     update() {
         // When class has been selected pass class selection and name input to game scene and start it
         if (this.classSelected !== null) {
+            if (this.classSelected === 1) {
+                this.meleeDamagedAudio.play();
+            } else if (this.classSelected === 2) {
+                this.rangerDamagedAudio.play();
+            } else if (this.classSelected === 3) {
+                this.mageDamagedAudio.play();
+            }
             this.scene.start("Game", { name: this.playerName, class: this.classSelected });
         }
     }

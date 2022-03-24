@@ -7,6 +7,7 @@ var config = {
         BootScene,
         NameScene,
         ClassScene,
+        EndScene,
         GameScene,
     ],
     dom: {

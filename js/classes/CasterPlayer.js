@@ -62,7 +62,7 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
 
         // Config natural health & mana restore
         this.healthRegenCount = 0;
-        this.maxHealthRegenCount = 250;
+        this.maxHealthRegenCount = 300;
         this.energyRegenCount = 0;
         this.maxEnergyRegenCount = 100;
 

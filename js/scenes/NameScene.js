@@ -34,11 +34,24 @@ class NameScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Display credit text
-        this.credits = this.add.text(670, 570, "Brought to you by:\n  Project Unfun ", {
+        this.credits = this.add.text(687, 550, "Brought to you by:\n  Project Unfun ", {
             color: "#DFDFDF",
             fontSize: 20,
             fontStyle: "bold"
         }).setOrigin(0.5);
+
+        // Display tutorial text
+        this.tutorial = this.add.text(130, 550, "Move = Arrow Keys\nAttack = Space Key\nRegen = Stand Still", {
+            color: "#DFDFDF",
+            fontSize: 20,
+            fontStyle: "bold"
+        }).setOrigin(0.5);
+
+        // SFX
+        this.skeleDeathAudio = this.sound.add("skeleDeath", {
+            loop: false,
+            volume: 1.1,
+        });
 
         // Serve the input form HTML page
         this.nameInput = this.add.dom(395, 375).createFromCache("form");
@@ -68,6 +81,7 @@ class NameScene extends Phaser.Scene {
     update() {
         // Once name has been entered, start game scene passing the name
         if (this.gotTheName) {
+            this.skeleDeathAudio.play();
             this.scene.start("Class", { name: this.playerName });
         }
     }

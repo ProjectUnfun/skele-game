@@ -1,0 +1,22 @@
+body {
+    background-image: url(https://images5.alphacoders.com/941/thumb-1920-941959.png);
+}
+
+.index-only {
+    height: fit-content;
+    width: fit-content;
+    max-height: fit-content;
+    max-width: fit-content;
+    display: block;
+    margin: auto;
+}
+
+canvas {
+    display: block;
+    margin: auto;
+}
+
+#game-div {
+    border: 5px solid gray;
+    border-radius: 1%;
+}
