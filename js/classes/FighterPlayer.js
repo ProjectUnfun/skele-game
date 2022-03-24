@@ -74,6 +74,8 @@ class FighterPlayer extends Phaser.Physics.Arcade.Sprite {
         this.energy = 12;
         this.maxEnergy = 12;
 
+        this.killCount = 0;
+
         // Config attack value - melee should kill a monster in 3 hits
         this.attackValue = 3;
 

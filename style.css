@@ -19,4 +19,5 @@ canvas {
 #game-div {
     border: 5px solid gray;
     border-radius: 1%;
+    margin-top: 3rem;
 }

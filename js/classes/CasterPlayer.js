@@ -74,6 +74,8 @@ class CasterPlayer extends Phaser.Physics.Arcade.Sprite {
         this.energy = 4;
         this.maxEnergy = 4;
 
+        this.killCount = 0;
+
         // Config attack value - caster should kill a monster in 2 hits
         this.attackValue = 4;
 

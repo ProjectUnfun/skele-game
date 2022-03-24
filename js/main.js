@@ -7,8 +7,9 @@ var config = {
         BootScene,
         NameScene,
         ClassScene,
-        EndScene,
         GameScene,
+        ScoreScene,
+        EndScene,
     ],
     dom: {
         createContainer: true

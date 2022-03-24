@@ -36,10 +36,6 @@ const monsterMoveSpeed = 160;
 // Track the ID of monsters
 let monsterID = 0;
 
-// Track the number of monsters
-let numberOfMonsters = 5;
-let moreMonsters = 5;
-
 // Locations for spawning monsters
 const spawnLocations = [
     [352, 480],
@@ -69,12 +65,18 @@ class GameScene extends Phaser.Scene {
     }
 
     init(data) {
+        // Run the Score scene in parallel with the game scene
+        this.scene.launch("Score");
+
         // Store name passed from NameScene
         this.playerName = data.name;
         this.playerClass = data.class;
     }
 
     create() {
+        this.numberOfMonsters = 5;
+        this.moreMonsters = 5;
+
         // Create the input keys
         this.createInputCursors();
 
@@ -87,11 +89,11 @@ class GameScene extends Phaser.Scene {
         // Config the items
         this.configItems();
 
-        // Spawn the mobs
-        this.spawnMonsters(numberOfMonsters);
-
         // Create the player
         this.createPlayer();
+
+        // Spawn the mobs
+        this.spawnMonsters(this.numberOfMonsters);
 
         // Add collisions with the map
         this.addCollisions();
@@ -110,10 +112,10 @@ class GameScene extends Phaser.Scene {
         this.player.update(this.cursors);
 
         // If all mobs are dead, spawn double
-        if (numberOfMonsters < 1) {
-            moreMonsters *= 2;
-            this.spawnMonsters(moreMonsters);
-            numberOfMonsters = moreMonsters;
+        if (this.numberOfMonsters < 1) {
+            this.moreMonsters *= 2;
+            this.numberOfMonsters = this.moreMonsters;
+            this.spawnMonsters(this.moreMonsters);
         }
     }
 
@@ -269,6 +271,13 @@ class GameScene extends Phaser.Scene {
                 monster.makeActive(spawnLocation);
             }
         }
+
+        // Emit event for updating UI counters
+        this.events.emit(
+            "updateScore",
+            this.player.killCount,
+            this.numberOfMonsters,
+        );
     }
 
     // Method creates a physics collection for item containment

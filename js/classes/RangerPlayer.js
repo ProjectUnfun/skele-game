@@ -74,6 +74,8 @@ class RangerPlayer extends Phaser.Physics.Arcade.Sprite {
         this.energy = 20;
         this.maxEnergy = 20;
 
+        this.killCount = 0;
+
         // Config attack value - ranger should kill a monster in 4 hits
         this.attackValue = 2;
 

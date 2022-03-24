@@ -200,9 +200,15 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
             this.scene.skeleDeathAudio.play();
 
             // Decrement monster counter
-            numberOfMonsters--;
-            console.log(`Monster: ${this.id} has been slain`);
-            console.log(`Remaining monsters: ${numberOfMonsters}`);
+            this.scene.player.killCount++;
+            this.scene.numberOfMonsters--;
+
+            // Emit event for updating UI counters
+            this.scene.events.emit(
+                "updateScore",
+                this.scene.player.killCount,
+                this.scene.numberOfMonsters,
+            );
 
             // Set the monster to inactive
             this.makeInactive();
