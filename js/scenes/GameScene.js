@@ -112,6 +112,7 @@ class GameScene extends Phaser.Scene {
     update() {
         // Check player death
         if (this.player.health < 1) {
+            this.scene.stop("Score");
             this.scene.start("End", { name: this.player.playerName });
         }
 
